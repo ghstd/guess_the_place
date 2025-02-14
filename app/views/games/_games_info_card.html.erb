@@ -1,0 +1,9 @@
+<h2>game: <%= game.id %></h2>
+<div>Создатель: <%= game.creator %></div>
+<div>Количество участников: <%= game.members.count %></div>
+<div>Приватность: открытая</div>
+<div>
+	<%# <span>пароль:</span>
+	<input type="password"> %>
+</div>
+<%= link_to "Присоединиться", game_path(game), class: "button_regular", data: {turbo_method: :patch} %>

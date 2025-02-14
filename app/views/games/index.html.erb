@@ -1,0 +1,24 @@
+<%= turbo_stream_from "games" %>
+
+
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="games">
+	<h1 class="games__title">Games:</h1>
+	<section class="games__content">
+		<ul class="games__list">
+			<% @games.each do |game| %>
+				<li class="games__info_card"><%= render partial: "games_info_card", locals: { game: game } %></li>
+			<% end %>
+		</ul>
+	</section>
+</main>
+
+<aside class="right_sidebar">
+	<%= render partial: "shared/header" %>
+</aside>

@@ -1,0 +1,27 @@
+.chat {
+	height: 65%;
+	border-top: 1px solid var(--light);
+	display: flex;
+	flex-direction: column;
+
+	&__messages {
+		flex-grow: 1;
+		padding: 0.5rem;
+	}
+
+	&__message {
+		background-color: var(--light);
+		color: var(--dark);
+		padding: 0.5rem 1rem;
+		margin: 0.5rem;
+		border-radius: var(--border_radius);
+	}
+
+	&__input {
+		min-height: 10%;
+		outline: none;
+		font-size: 1.5rem;
+		font-weight: 500;
+		padding: 0.5rem;
+	}
+}

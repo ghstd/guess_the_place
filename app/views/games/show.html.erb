@@ -1,0 +1,30 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "game_info", locals: { game: @game } %>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="game" >
+	<h1 class="game__title">Game</h1>
+	<section class="game__content" data-controller="panorama" data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>">
+		<meta data-coords="<%= @game.coords %>">
+		<div class="game__panorama"></div>
+		<div class="game__controls">
+			<ul class="game__options">
+				<li>Lorem ipsum dolor sit amet.</li>
+				<li>Lorem ipsum dolor sit amet.</li>
+				<li>Lorem ipsum dolor sit amet.</li>
+				<li>Lorem ipsum dolor sit amet.</li>
+			</ul>
+			<button class="button_regular" id="game_ready_button">Готов</button>
+		</div>
+	</section>
+</main>
+
+<aside class="right_sidebar">
+	<%= render partial: "shared/header" %>
+	<%= render partial: "shared/video_player" %>
+	<%= render partial: "shared/chat" %>
+</aside>

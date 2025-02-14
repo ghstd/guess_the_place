@@ -1,0 +1,23 @@
+// media
+$mobile: 480px;
+$tablet: 768px;
+$small_screen: 950px;
+
+:root {
+	// colors
+	--light: #fff;
+	--dark: #16141c;
+	--dark_2: #1c1633;
+	--gray: #292733;
+	--shadow: rgba(0, 0, 0, 0.2);
+	--green: #268462;
+
+	// vars
+	--border_radius: 0.5rem;
+}
+
+
+[data-theme="light"] {}
+
+
+[data-theme="dark"] {}
