@@ -12,13 +12,13 @@
 	<section class="lobby__content">
 		<h2>Участники:</h2>
 		<ul id="lobby_members_<%= @game.id %>">
-			<% @game.members.each do |member| %>
-				<li><%= member %></li>
+			<% @game.users.each do |user| %>
+				<li><%= user.email %></li>
 			<% end %>
 		</ul>
 		<div class="lobby__timer"></div>
 		<% if @creator %>
-			<%= link_to "Начать", update_game_phase_game_path(@game), class: "button_regular", id: "lobby_start_button", data: {turbo_method: :patch} %>
+			<%= link_to "Начать", update_phase_game_path(@game), class: "button_regular", id: "lobby_start_button", data: {turbo_method: :patch} %>
 		<% end %>
 		<h2>phase: <%= @game.phase %></h2>
 	</section>	

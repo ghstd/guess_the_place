@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -17,7 +18,9 @@ Rails.application.routes.draw do
   resources :games do
     member do
       get :lobby
-      patch :update_game_phase
+      patch :update_phase
+      patch :update_players_quantity
+      get :get_geodata
     end
   end
 end

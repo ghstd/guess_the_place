@@ -1,8 +1,8 @@
 <section class="game_info">
 	<h2>Участники:</h2>
 	<ul>
-		<% game.members.each do |member| %>
-			<li><%= member %></li>
+		<% game.users.each do |user| %>
+			<li><%= user.email %></li>
 		<% end %>
 	</ul>
 </section>

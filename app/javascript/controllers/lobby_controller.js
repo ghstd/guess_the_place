@@ -34,7 +34,6 @@ export default class extends Controller {
 					counter--
 				} else {
 					clearInterval(stopId)
-					console.log(url)
 					window.location.href = url
 				}
 			}, 1000)

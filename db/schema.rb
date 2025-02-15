@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_160136) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_14_191309) do
+  create_table "game_coordinates", force: :cascade do |t|
+    t.float "lat"
+    t.float "long"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "game_id", null: false
+    t.index ["game_id"], name: "index_game_coordinates_on_game_id"
+  end
+
+  create_table "game_players", force: :cascade do |t|
+    t.integer "game_id", null: false
+    t.integer "user_id", null: false
+    t.boolean "ready", default: false
+    t.integer "answers", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_game_players_on_game_id"
+    t.index ["user_id"], name: "index_game_players_on_user_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.integer "steps", default: 0
     t.text "coords"
@@ -19,5 +39,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_160136) do
     t.datetime "updated_at", null: false
     t.string "phase", default: "lobby"
     t.string "creator"
+    t.integer "current_step", default: 1
   end
+
+  create_table "random_coordinates", force: :cascade do |t|
+    t.float "lat"
+    t.float "long"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "game_coordinates", "games"
+  add_foreign_key "game_players", "games"
+  add_foreign_key "game_players", "users"
 end

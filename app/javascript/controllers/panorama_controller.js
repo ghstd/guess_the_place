@@ -28,10 +28,14 @@ export default class extends Controller {
 		optionsEl.innerHTML = optionsShuffled.map(option => `<li>${option}</li>`).join('')
 	}
 
-	connect() {
+	async connect() {
 
-		const coords = JSON.parse(this.element.querySelector('[data-coords]').dataset.coords)
-		let step = 0
+		const gameId = this.element.querySelector('meta[data-game-id]').dataset.gameId
+		const coords = await NetworkClient.getGeodata(gameId)
+		if (coords.error) {
+			this.showErrorEl(coords.error)
+			return
+		}
 
 		const loader = new Loader({
 			apiKey: this.element.dataset.apiKey,
@@ -42,7 +46,7 @@ export default class extends Controller {
 			.then(async () => {
 
 				const panoramaEl = this.element.querySelector('.game__panorama')
-				const position = { lat: coords[step][0], lng: coords[step][1] }
+				const position = { lat: coords[0], lng: coords[1] }
 				const pano = new google.maps.StreetViewPanorama(panoramaEl, {
 					position: position,
 					clickToGo: false,
@@ -53,17 +57,20 @@ export default class extends Controller {
 				})
 
 				await this.addQuestionOptions(position)
-				step++
 
 				const readyButton = this.element.querySelector('#game_ready_button')
 				readyButton.onclick = async () => {
-					if (step >= coords.length) return
 
-					const position = { lat: coords[step][0], lng: coords[step][1] }
+					const coords = await NetworkClient.getGeodata(gameId)
+					if (coords.error) {
+						this.showErrorEl(coords.error)
+						return
+					}
+
+					const position = { lat: coords[0], lng: coords[1] }
 					pano.setPosition(position)
 
 					await this.addQuestionOptions(position)
-					step++
 				}
 
 			})

@@ -15,7 +15,20 @@ export default class NetworkClient {
 			console.error("Ошибка в NetworkClient.getRandomStreets:", error)
 			return { error: error.message }
 		}
+	}
 
+	static async getGeodata(gameId) {
+		try {
+			const response = await fetch(`${this.SERVER_URL}/games/${gameId}/get_geodata`)
+			if (!response.ok) {
+				throw new Error(`Ошибка ${response.status}: ${response.statusText}`)
+			}
+			const result = await response.json()
+			return result
+		} catch (error) {
+			console.error("Ошибка в NetworkClient.getRandomStreets:", error)
+			return { error: error.message }
+		}
 	}
 
 	static async getStreetByCoords(position) {

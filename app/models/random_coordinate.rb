@@ -1,0 +1,2 @@
+class RandomCoordinate < ApplicationRecord
+end

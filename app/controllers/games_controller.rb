@@ -1,22 +1,23 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!
   def index
-    @games = Game.where(phase: "lobby")
+    @games = Game.includes(:users).where(phase: "lobby")
   end
 
   def new
   end
 
   def create
+    steps = 4
     @game = Game.new
-    @game.members = [ request.remote_ip ]
-    @game.creator = request.remote_ip
-    @game.coords = [
-      [ 48.462173, 35.032184 ],
-      [ 48.461923, 35.058812 ],
-      [ 48.448249, 35.055316 ],
-      [ 48.447284, 35.028574 ]
-    ]
+    @game.users << current_user
+    @game.creator = current_user.email
+    @game.steps = steps
+    coords = RandomCoordinate.order(Arel.sql("RANDOM()")).limit(steps).pluck("lat", "long")
     if @game.save
+      coords.each do |coord|
+        @game.game_coordinates.create(lat: coord[0], long: coord[1])
+      end
       redirect_to lobby_game_path(@game)
     else
       redirect_to root_path
@@ -27,29 +28,32 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
+  def get_geodata
+    @game = Game.find(params[:id])
+    coords = @game.game_coordinates.pluck("lat", "long")[@game.current_step - 1]
+
+    render json: coords
+  end
+
+  def game_player_ready
+    game = Game.find(params[:id])
+    game_player = game.game_players.find_by(user: current_user)
+    game_player.ready!
+  end
+
   def edit
   end
 
-  def update
+  def update_players_quantity
     @game = Game.find(params[:id])
-    if @game.update(members: @game.members << request.remote_ip)
+    @game.game_players.find_or_create_by(user: current_user)
 
-      # Turbo::StreamsChannel.broadcast_replace_to(
-      #   "lobby_#{@game.id}",
-      #   target: "lobby_members",
-      #   partial: "games/update",
-      #   locals: { game: @game }
-      # )
-
-      redirect_to lobby_game_path(@game)
-    else
-      redirect_to root_path
-    end
+    redirect_to lobby_game_path(@game)
   end
 
-  def update_game_phase
+  def update_phase
     @game = Game.find(params[:id])
-    if @game.update(phase: rand().to_s)
+    if @game.update(phase: "game")
       head :ok
     else
       redirect_to root_path
@@ -60,7 +64,7 @@ class GamesController < ApplicationController
   end
 
   def lobby
-    @game = Game.find(params[:id])
-    @creator = @game.creator == request.remote_ip
+    @game = Game.includes(:users).find(params[:id])
+    @creator = @game.creator == current_user.email
   end
 end
