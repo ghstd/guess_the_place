@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_191309) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_15_172615) do
   create_table "game_coordinates", force: :cascade do |t|
     t.float "lat"
     t.float "long"
@@ -27,6 +27,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_191309) do
     t.integer "answers", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "current_answer"
     t.index ["game_id"], name: "index_game_players_on_game_id"
     t.index ["user_id"], name: "index_game_players_on_user_id"
   end
@@ -40,11 +41,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_191309) do
     t.string "phase", default: "lobby"
     t.string "creator"
     t.integer "current_step", default: 1
+    t.string "answer"
   end
 
   create_table "random_coordinates", force: :cascade do |t|
     t.float "lat"
     t.float "long"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "streets", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -7,35 +7,22 @@ import NetworkClient from "../lib/network_client"
 
 export default class extends Controller {
 
-	showErrorEl(error) {
-		this.element.querySelector('.game__options').innerHTML = `<li>${error}</li>`
-	}
-
-	async addQuestionOptions(position) {
-		const options = await NetworkClient.getRandomStreets()
-		if (options.error) {
-			this.showErrorEl(options.error)
-			return
-		}
-		const answer = await NetworkClient.getStreetByCoords(position)
-		if (answer.error) {
-			this.showErrorEl(answer.error)
-			return
-		}
-
-		const optionsShuffled = shuffleArray([...options, answer])
-		const optionsEl = this.element.querySelector('.game__options')
-		optionsEl.innerHTML = optionsShuffled.map(option => `<li>${option}</li>`).join('')
-	}
-
 	async connect() {
 
-		const gameId = this.element.querySelector('meta[data-game-id]').dataset.gameId
-		const coords = await NetworkClient.getGeodata(gameId)
-		if (coords.error) {
-			this.showErrorEl(coords.error)
-			return
+		this.state = {
+			ready: false,
+			answer: ''
 		}
+
+		document.addEventListener('turbo:before-stream-render', (event) => {
+			console.log('turbo:before-stream-render')
+			console.log(event.target)
+		})
+
+
+		const gameId = this.element.querySelector('meta[data-game-id]').dataset.gameId
+		const coordsJson = this.element.querySelector('meta[data-game-coords]').dataset.gameCoords
+		const coords = JSON.parse(coordsJson)
 
 		const loader = new Loader({
 			apiKey: this.element.dataset.apiKey,
@@ -56,21 +43,33 @@ export default class extends Controller {
 					fullscreenControl: true
 				})
 
-				await this.addQuestionOptions(position)
-
 				const readyButton = this.element.querySelector('#game_ready_button')
 				readyButton.onclick = async () => {
 
-					const coords = await NetworkClient.getGeodata(gameId)
-					if (coords.error) {
-						this.showErrorEl(coords.error)
-						return
+					if (readyButton.classList.contains('active')) {
+						this.state.ready = false
+						readyButton.disabled = true
+						await NetworkClient.setPlayerReady(gameId, this.state)
+						readyButton.disabled = false
+						readyButton.classList.remove('active')
+						readyButton.textContent = 'Готов'
+					} else {
+						this.state.ready = true
+						readyButton.disabled = true
+						await NetworkClient.setPlayerReady(gameId, this.state)
+						readyButton.disabled = false
+						readyButton.classList.add('active')
+						readyButton.textContent = 'Отмена'
 					}
 
-					const position = { lat: coords[0], lng: coords[1] }
-					pano.setPosition(position)
 
-					await this.addQuestionOptions(position)
+
+
+
+					// const position = { lat: coords[0], lng: coords[1] }
+					// pano.setPosition(position)
+
+					// await this.addQuestionOptions(position)
 				}
 
 			})

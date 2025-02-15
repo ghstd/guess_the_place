@@ -1,13 +1,3 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
 # [
 #   [ 48.451200, 35.056527 ],
 #   [ 48.458146, 35.075333 ],
@@ -18,3 +8,19 @@
 # ].each do |lat, long|
 #   RandomCoordinate.create!(lat: lat, long: long)
 # end
+
+
+
+# file = Rails.root.join("lib", "streets.txt")
+# File.readlines(file, chomp: true).each do |street|
+#   Street.create!(name: street)
+# end
+
+
+
+# words = Street.pluck(:name) # Получаем все названия улиц в виде массива строк
+# words = words.flat_map { |name| name.split(/\s+/) } # Разбиваем на отдельные слова
+# words = words.select { |word| word.match?(/\A[а-яіїєґ]+\z/i) && word == word.downcase } # Оставляем только слова с маленькой буквы
+# unique_words = words.uniq # Берем только уникальные слова
+
+# p unique_words

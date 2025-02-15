@@ -18,6 +18,10 @@ class Game < ApplicationRecord
     if saved_change_to_attribute?(:phase)
       broadcast_prepend_to "lobby_#{id}", target: "meta", partial: "games/add_meta"
     end
+
+    if saved_change_to_attribute?(:step)
+      broadcast_render_to "game_#{@game.id}", partial: "games/show_update"
+    end
   end
 
   def all_players_ready?

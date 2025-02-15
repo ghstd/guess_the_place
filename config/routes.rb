@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       patch :update_phase
       patch :update_players_quantity
       get :get_geodata
+      patch :player_ready
     end
   end
 end

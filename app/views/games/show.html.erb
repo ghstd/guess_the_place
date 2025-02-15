@@ -1,3 +1,5 @@
+<%= turbo_stream_from "game_#{@game.id}" %>
+
 <aside class="left_sidebar">
 	<nav class="navigation">
 		<%= render partial: "navigation" %>
@@ -6,18 +8,17 @@
 	<%= render partial: "shared/footer" %>
 </aside>
 
-<main class="game" >
+<main class="game" id="game">
 	<h1 class="game__title">Game</h1>
 	<section class="game__content" data-controller="panorama" data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>">
-		<%# <meta data-coords="<%= @game.coords %>"> %>
 		<meta data-game-id="<%= @game.id %>">
+		<meta data-game-coords="<%= @coords.as_json %>" id="game_coords">
 		<div class="game__panorama"></div>
 		<div class="game__controls">
-			<ul class="game__options">
-				<li>Lorem ipsum dolor sit amet.</li>
-				<li>Lorem ipsum dolor sit amet.</li>
-				<li>Lorem ipsum dolor sit amet.</li>
-				<li>Lorem ipsum dolor sit amet.</li>
+			<ul class="game__options" id="game_options">
+				<% @set_of_streets.each do |street| %>
+					<li><%= street %></li>
+				<% end %>
 			</ul>
 			<button class="button_regular" id="game_ready_button">Готов</button>
 		</div>
