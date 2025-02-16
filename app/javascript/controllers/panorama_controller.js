@@ -7,6 +7,28 @@ import NetworkClient from "../lib/network_client"
 
 export default class extends Controller {
 
+	updatePanoramaHandler(event) {
+		const targetId = event.target.getAttribute("target")
+
+		if (targetId === 'game_coords') {
+			const coordsJson = event.target
+				.querySelector('template')
+				.content
+				.querySelector('meta[data-game-coords]')
+				.dataset.gameCoords
+
+			const coords = JSON.parse(coordsJson)
+			const position = { lat: coords[0], lng: coords[1] }
+			this.pano.setPosition(position)
+
+			const readyButton = this.element.querySelector('#game_ready_button')
+			readyButton.classList.remove('active')
+			readyButton.textContent = 'Готов'
+			this.state.ready = false
+			this.state.answer = ''
+		}
+	}
+
 	async connect() {
 
 		this.state = {
@@ -14,29 +36,8 @@ export default class extends Controller {
 			answer: ''
 		}
 
-		document.addEventListener('turbo:before-stream-render', (event) => {
-
-			const targetId = event.target.getAttribute("target")
-
-			if (targetId === 'game_coords') {
-				const coordsJson = event.target
-					.querySelector('template')
-					.content
-					.querySelector('meta[data-game-coords]')
-					.dataset.gameCoords
-
-				const coords = JSON.parse(coordsJson)
-				const position = { lat: coords[0], lng: coords[1] }
-				this.pano.setPosition(position)
-
-				const readyButton = this.element.querySelector('#game_ready_button')
-				readyButton.classList.remove('active')
-				readyButton.textContent = 'Готов'
-				this.state.ready = false
-				this.state.answer = ''
-			}
-		})
-
+		this.updatePanoramaHandler = this.updatePanoramaHandler.bind(this)
+		document.addEventListener('turbo:before-stream-render', this.updatePanoramaHandler)
 
 		const gameId = this.element.querySelector('meta[data-game-id]').dataset.gameId
 		const coordsJson = this.element.querySelector('meta[data-game-coords]').dataset.gameCoords
@@ -80,6 +81,10 @@ export default class extends Controller {
 			}
 		}
 
+	}
+
+	disconnect() {
+		document.removeEventListener('turbo:before-stream-render', this.updatePanoramaHandler)
 	}
 }
 

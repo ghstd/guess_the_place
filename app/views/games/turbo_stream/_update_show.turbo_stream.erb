@@ -11,3 +11,9 @@
 		<% end %>
   </template>
 </turbo-stream>
+
+<turbo-stream action="replace" target="game_current_step">
+  <template>
+		<p id="game_current_step">вопрос <span><%= game.current_step %></span> из <span><%= game.steps %></span></p>
+  </template>
+</turbo-stream>

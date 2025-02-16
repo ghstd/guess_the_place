@@ -8,21 +8,19 @@ class Game < ApplicationRecord
 
   after_update_commit do
     if saved_change_to_attribute?(:members)
-      broadcast_replace_to "lobby_#{id}", target: "lobby_members_#{id}", partial: "games/lobby_members"
+      broadcast_render_to "lobby_#{id}", partial: "games/turbo_stream/update_lobby_members", locals: { game: self }
     end
 
     if saved_change_to_attribute?(:members)
-      broadcast_replace_to "games", target: "lobby_members_#{id}", partial: "games/lobby_members"
+      broadcast_render_to "games", partial: "games/turbo_stream/update_index_players_quantity", locals: { game: self }
     end
 
     if saved_change_to_attribute?(:phase)
       case phase
       when "game"
-        broadcast_prepend_to "lobby_#{id}", target: "meta", partial: "games/add_meta"
+        broadcast_render_to "lobby_#{id}", partial: "games/turbo_stream/add_meta", locals: { game: self }
       when "end"
-        p "============================================="
-        p "end game"
-        p "============================================="
+        broadcast_render_to "game_#{id}", partial: "games/turbo_stream/end_game", locals: { game: self }
       end
     end
 
@@ -35,7 +33,8 @@ class Game < ApplicationRecord
       set_of_streets.map! { |street| normalize_street_name(street) }
       set_of_streets.push(street).shuffle!
 
-      broadcast_render_to "game_#{id}", partial: "games/show_update", locals: {
+      broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: {
+        game: self,
         coords: coords,
         set_of_streets: set_of_streets
       }

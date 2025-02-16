@@ -8,9 +8,12 @@
 	<%= render partial: "shared/footer" %>
 </aside>
 
-<main class="game" id="game">
-	<h1 class="game__title">Game</h1>
-	<section class="game__content" data-controller="panorama" data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>">
+<main class="game">
+	<div class="game__title">
+		<h1>Game</h1>
+		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
+	</div>
+	<section class="game__content" data-controller="panorama" data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>" id="game_content">
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-game-coords="<%= @coords.as_json %>" id="game_coords">
 		<div class="game__panorama"></div>
