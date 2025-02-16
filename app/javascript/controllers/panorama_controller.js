@@ -15,8 +15,26 @@ export default class extends Controller {
 		}
 
 		document.addEventListener('turbo:before-stream-render', (event) => {
-			console.log('turbo:before-stream-render')
-			console.log(event.target)
+
+			const targetId = event.target.getAttribute("target")
+
+			if (targetId === 'game_coords') {
+				const coordsJson = event.target
+					.querySelector('template')
+					.content
+					.querySelector('meta[data-game-coords]')
+					.dataset.gameCoords
+
+				const coords = JSON.parse(coordsJson)
+				const position = { lat: coords[0], lng: coords[1] }
+				this.pano.setPosition(position)
+
+				const readyButton = this.element.querySelector('#game_ready_button')
+				readyButton.classList.remove('active')
+				readyButton.textContent = 'Готов'
+				this.state.ready = false
+				this.state.answer = ''
+			}
 		})
 
 
@@ -34,7 +52,7 @@ export default class extends Controller {
 
 				const panoramaEl = this.element.querySelector('.game__panorama')
 				const position = { lat: coords[0], lng: coords[1] }
-				const pano = new google.maps.StreetViewPanorama(panoramaEl, {
+				this.pano = new google.maps.StreetViewPanorama(panoramaEl, {
 					position: position,
 					clickToGo: false,
 					linksControl: false,
@@ -42,38 +60,26 @@ export default class extends Controller {
 					showRoadLabels: false,
 					fullscreenControl: true
 				})
-
-				const readyButton = this.element.querySelector('#game_ready_button')
-				readyButton.onclick = async () => {
-
-					if (readyButton.classList.contains('active')) {
-						this.state.ready = false
-						readyButton.disabled = true
-						await NetworkClient.setPlayerReady(gameId, this.state)
-						readyButton.disabled = false
-						readyButton.classList.remove('active')
-						readyButton.textContent = 'Готов'
-					} else {
-						this.state.ready = true
-						readyButton.disabled = true
-						await NetworkClient.setPlayerReady(gameId, this.state)
-						readyButton.disabled = false
-						readyButton.classList.add('active')
-						readyButton.textContent = 'Отмена'
-					}
-
-
-
-
-
-					// const position = { lat: coords[0], lng: coords[1] }
-					// pano.setPosition(position)
-
-					// await this.addQuestionOptions(position)
-				}
-
 			})
 			.catch(error => console.log(`Error in connect() ==> loader.load(): ${error}`))
+
+		const readyButton = this.element.querySelector('#game_ready_button')
+		readyButton.onclick = async () => {
+
+			if (readyButton.classList.contains('active')) {
+				this.state.ready = false
+				this.state.answer = ''
+				readyButton.classList.remove('active')
+				readyButton.textContent = 'Готов'
+				await NetworkClient.setPlayerReady(gameId, this.state)
+			} else {
+				this.state.ready = true
+				readyButton.classList.add('active')
+				readyButton.textContent = 'Отмена'
+				await NetworkClient.setPlayerReady(gameId, this.state)
+			}
+		}
+
 	}
 }
 

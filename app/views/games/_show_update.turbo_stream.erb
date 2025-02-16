@@ -1,13 +1,13 @@
 <turbo-stream action="replace" target="game_coords">
   <template>
-    <meta data-game-coords="test-test">
+    <meta data-game-coords="<%= coords.as_json %>" id="game_coords">
   </template>
 </turbo-stream>
 
-<turbo-stream action="replace" target="game_options">
+<turbo-stream action="update" target="game_options">
   <template>
-    <ul class="game__options">
-			<li>test-test</li>
-		</ul>
+		<% set_of_streets.each do |street| %>
+			<li><%= street %></li>
+		<% end %>
   </template>
 </turbo-stream>

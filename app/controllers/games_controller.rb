@@ -31,11 +31,11 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     @coords = @game.game_coordinates.pluck("lat", "long")[@game.current_step - 1]
-    street = get_street_by_coords(@coords)
-    street = normalize_street_name(street)
+    street = @game.get_street_by_coords(@coords)
+    street = @game.normalize_street_name(street)
     @game.update(answer: street)
     @set_of_streets = Street.where.not(name: street).order(Arel.sql("RANDOM()")).limit(3).pluck(:name)
-    @set_of_streets.map! { |street| normalize_street_name(street) }
+    @set_of_streets.map! { |street| @game.normalize_street_name(street) }
     @set_of_streets.push(street).shuffle!
   end
 
@@ -86,19 +86,4 @@ class GamesController < ApplicationController
   end
 
   private
-
-  def get_street_by_coords(coords)
-    uri = URI("https://nominatim.openstreetmap.org/reverse?format=json&lat=#{coords[0]}&lon=#{coords[1]}&accept-language=uk")
-    response = Net::HTTP.get(uri)
-    data = JSON.parse(response)
-    data["address"]["road"]
-  end
-
-  def normalize_street_name(street)
-    match = street.match(/\b(вулиця|проспект|шосе|провулок|міст|проїзд|узвіз|площа|обхід|бульвар|тупик|провуло|вулиц|вузиця|сквер|алея|провул|стежка|каф)\b/i)
-    street if !match
-    type = match[0]
-    name = street.sub(type, "").strip
-    "#{type} #{name}"
-  end
 end
