@@ -6,4 +6,4 @@
 	<%# <span>пароль:</span>
 	<input type="password"> %>
 </div>
-<%= link_to "Присоединиться", update_players_quantity_game_path(game), class: "button_regular", data: {turbo_method: :patch} %>
+<%= link_to "Присоединиться", add_player_game_path(game), class: "button_regular", data: {turbo_method: :patch} %>

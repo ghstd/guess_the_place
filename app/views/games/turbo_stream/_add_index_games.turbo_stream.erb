@@ -1,0 +1,11 @@
+<turbo-stream action="append" target="games_list">
+	<template>
+		<% games.each do |game| %>
+			<li class="games__info_card" id="game_<%= game.id %>">
+				<%= render partial: "games/games_info_card", formats: :html, locals: { game: game } %>
+			</li>
+		<% end %>
+	</template>
+</turbo-stream>
+
+

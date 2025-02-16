@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_15_172615) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_16_174114) do
   create_table "game_coordinates", force: :cascade do |t|
     t.float "lat"
     t.float "long"
@@ -34,14 +34,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_172615) do
 
   create_table "games", force: :cascade do |t|
     t.integer "steps", default: 0
-    t.text "coords"
-    t.text "members"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "phase", default: "lobby"
     t.string "creator"
     t.integer "current_step", default: 1
     t.string "answer"
+    t.text "current_coordinates"
+    t.text "current_streets"
+    t.string "game_type"
+    t.string "name"
+  end
+
+  create_table "games_statistics", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name"
+    t.string "game_type"
+    t.integer "questions"
+    t.integer "answers"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_games_statistics_on_user_id"
   end
 
   create_table "random_coordinates", force: :cascade do |t|
@@ -73,4 +86,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_172615) do
   add_foreign_key "game_coordinates", "games"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "users"
+  add_foreign_key "games_statistics", "users"
 end

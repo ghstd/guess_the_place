@@ -1,44 +1,59 @@
 class Game < ApplicationRecord
-  serialize :coords, coder: JSON
-  serialize :members, coder: JSON
+  serialize :current_coordinates, coder: JSON
+  serialize :current_streets, coder: JSON
 
   has_many :game_players, dependent: :destroy
   has_many :users, through: :game_players
   has_many :game_coordinates, dependent: :destroy
 
+  after_create_commit do
+    games = Game.where(phase: "lobby")
+    broadcast_render_to "games", partial: "games/turbo_stream/add_index_games", locals: { games: games }
+  end
+
   after_update_commit do
-    if saved_change_to_attribute?(:members)
-      broadcast_render_to "lobby_#{id}", partial: "games/turbo_stream/update_lobby_members", locals: { game: self }
-    end
-
-    if saved_change_to_attribute?(:members)
-      broadcast_render_to "games", partial: "games/turbo_stream/update_index_players_quantity", locals: { game: self }
-    end
-
     if saved_change_to_attribute?(:phase)
       case phase
       when "game"
-        broadcast_render_to "lobby_#{id}", partial: "games/turbo_stream/add_meta", locals: { game: self }
+        broadcast_render_to "games", partial: "games/turbo_stream/delete_index_games", locals: { game: self }
+        broadcast_render_to "lobby_#{id}", partial: "games/turbo_stream/lobby_add_meta", locals: { game: self }
       when "end"
-        broadcast_render_to "game_#{id}", partial: "games/turbo_stream/end_game", locals: { game: self }
+        broadcast_render_to "game_#{id}", partial: "games/turbo_stream/show_end_game", locals: { game: self }
+
+        game_players.each do |game_player|
+          GamesStatistic.create!(
+            user: game_player.user,
+            name: name,
+            game_type: game_type,
+            questions: steps,
+            answers: game_player.answers
+          )
+        end
+
+        self.update!(phase: "delete")
+      when "delete"
+        self.destroy
       end
     end
 
     if saved_change_to_attribute?(:current_step)
-      coords = game_coordinates.pluck("lat", "long")[current_step - 1]
-      street = get_street_by_coords(coords)
-      street = normalize_street_name(street)
-      update(answer: street)
-      set_of_streets = Street.where.not(name: street).order(Arel.sql("RANDOM()")).limit(3).pluck(:name)
-      set_of_streets.map! { |street| normalize_street_name(street) }
-      set_of_streets.push(street).shuffle!
-
-      broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: {
-        game: self,
-        coords: coords,
-        set_of_streets: set_of_streets
-      }
+      set_game_state!
+      broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: { game: self }
     end
+  end
+
+  def game_state_exists?
+    current_coordinates.present? && current_streets.present?
+  end
+
+  def set_game_state!
+    coords = game_coordinates.pluck("lat", "long")[current_step - 1]
+    street = get_street_by_coords(coords)
+    street = normalize_street_name(street)
+    set_of_streets = Street.where.not(name: street).order(Arel.sql("RANDOM()")).limit(3).pluck(:name)
+    set_of_streets.map! { |street| normalize_street_name(street) }
+    set_of_streets.push(street).shuffle!
+    update(answer: street, current_coordinates: coords, current_streets: set_of_streets)
   end
 
   def all_players_ready?
@@ -49,14 +64,15 @@ class Game < ApplicationRecord
     transaction do
       game_players.lock # Блокируем игроков в этой игре
       if all_players_ready?
+        game_players.each do |game_player|
+          count = game_player.current_answer == answer ? 1 : 0
+          game_player.update(ready: false, answers: game_player.answers + count)
+        end
+
         if current_step + 1 > steps
           update(phase: "end")
         else
           update(current_step: current_step + 1)
-          game_players.each do |game_player|
-            count = game_player.current_answer == answer ? 1 : 0
-            game_player.update(ready: false, answers: game_player.answers + count)
-          end
         end
       end
     end

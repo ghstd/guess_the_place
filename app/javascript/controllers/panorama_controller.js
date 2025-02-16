@@ -29,6 +29,24 @@ export default class extends Controller {
 		}
 	}
 
+	clickOptionHandler(event) {
+		if (event.target.classList.contains('game__option')) {
+
+			if (this.state.ready) return
+
+			if (!event.target.classList.contains('game__option--active')) {
+				const options = this.element.querySelectorAll('.game__option')
+
+				options.forEach((option) => {
+					option.classList.remove('game__option--active')
+				})
+
+				event.target.classList.add('game__option--active')
+				this.state.answer = event.target.textContent
+			}
+		}
+	}
+
 	async connect() {
 
 		this.state = {
@@ -37,7 +55,10 @@ export default class extends Controller {
 		}
 
 		this.updatePanoramaHandler = this.updatePanoramaHandler.bind(this)
+		this.clickOptionHandler = this.clickOptionHandler.bind(this)
+
 		document.addEventListener('turbo:before-stream-render', this.updatePanoramaHandler)
+		this.element.addEventListener('click', this.clickOptionHandler)
 
 		const gameId = this.element.querySelector('meta[data-game-id]').dataset.gameId
 		const coordsJson = this.element.querySelector('meta[data-game-coords]').dataset.gameCoords

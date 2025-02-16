@@ -13,14 +13,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
-  get "/streets" => "pages#streets"
+  get "/rating" => "pages#rating"
 
-  resources :games do
+  resources :games, except: [ :new, :edit, :destroy ] do
     member do
       get :lobby
-      patch :update_phase
-      patch :update_players_quantity
-      get :get_geodata
+      patch :update_game_phase
+      patch :add_player
       patch :player_ready
     end
   end

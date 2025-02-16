@@ -10,9 +10,9 @@
 
 <main class="games">
 	<section class="games__content">
-		<ul class="games__list">
+		<ul class="games__list" id="games_list">
 			<% @games.each do |game| %>
-				<li class="games__info_card"><%= render partial: "games_info_card", locals: { game: game } %></li>
+				<li class="games__info_card" id="game_<%= game.id %>"><%= render partial: "games_info_card", locals: { game: game } %></li>
 			<% end %>
 		</ul>
 	</section>

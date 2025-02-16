@@ -1,0 +1,26 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="home">
+	<h1>Рейтинг</h1>
+	<% @users.each do |user| %>
+		<h2><%= user.email %></h2>
+		<% user.games_statistics.each do |game| %>
+			<p>name: <%= game.name %></p>
+			<p>game_type: <%= game.game_type %></p>
+			<p>questions: <%= game.questions %></p>
+			<p>answers: <%= game.answers %></p>
+			<hr>
+		<% end %>
+		<br>
+	<% end %>
+</main>
+
+<aside class="right_sidebar">
+	<%= render partial: "shared/header" %>
+</aside>
+

@@ -10,17 +10,17 @@
 
 <main class="game">
 	<div class="game__title">
-		<h1>Game</h1>
+		<h1><%= @game.name %></h1>
 		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
 	</div>
 	<section class="game__content" data-controller="panorama" data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>" id="game_content">
 		<meta data-game-id="<%= @game.id %>">
-		<meta data-game-coords="<%= @coords.as_json %>" id="game_coords">
+		<meta data-game-coords="<%= @game.current_coordinates.as_json %>" id="game_coords">
 		<div class="game__panorama"></div>
 		<div class="game__controls">
 			<ul class="game__options" id="game_options">
-				<% @set_of_streets.each do |street| %>
-					<li><%= street %></li>
+				<% @game.current_streets.each do |street| %>
+					<li class="game__option"><%= street %></li>
 				<% end %>
 			</ul>
 			<button class="button_regular" id="game_ready_button">Готов</button>
