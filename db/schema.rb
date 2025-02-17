@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_165911) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_203306) do
+  create_table "chat_messages", force: :cascade do |t|
+    t.integer "game_id", null: false
+    t.string "author"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_chat_messages_on_game_id"
+  end
+
   create_table "game_coordinates", force: :cascade do |t|
     t.float "lat"
     t.float "long"
@@ -85,6 +94,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_165911) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "chat_messages", "games"
   add_foreign_key "game_coordinates", "games"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "users"

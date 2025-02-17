@@ -27,7 +27,7 @@
 <aside class="right_sidebar">
 	<%= render partial: "shared/header" %>
 	<%= render partial: "shared/video_player" %>
-	<%= render partial: "shared/chat" %>
+	<%= render partial: "shared/chat", locals: { game: @game } %>
 </aside>
 
 

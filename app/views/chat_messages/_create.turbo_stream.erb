@@ -1,0 +1,8 @@
+<turbo-stream action="append" target="chat_<%= game.id %>">
+	<template>
+		<p class="chat__message">
+			<span><%= chat_message.author %></span>
+			<span><%= chat_message.message %></span>
+		</p>
+	</template>
+</turbo-stream>

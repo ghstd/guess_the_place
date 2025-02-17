@@ -14,7 +14,7 @@ class GamesController < ApplicationController
     @game.steps = 2
     @game.current_step = 1
     @game.phase = "lobby"
-    @game.game_players.build(user: current_user, color: get_random_color)
+    @game.game_players.build(user: current_user, color: get_random_color(0))
     @game.creator = current_user.email
 
     coords = RandomCoordinate.order(Arel.sql("RANDOM()")).limit(@game.steps).pluck("lat", "long")
@@ -61,9 +61,10 @@ class GamesController < ApplicationController
   end
 
   def add_player
-    @game = Game.find(params[:id])
+    @game = Game.includes(:game_players).find(params[:id])
     @game.game_players.find_or_create_by(user: current_user) do |player|
-      player.color = get_random_color
+      index = @game.game_players.size
+      player.color = get_random_color(index)
     end
 
     redirect_to lobby_game_path(@game)
@@ -79,36 +80,28 @@ class GamesController < ApplicationController
   end
 
   def lobby
-    @game = Game.includes(:users).find(params[:id])
+    @game = Game.includes(:users, :chat_messages).find(params[:id])
 
     if @game.phase != "lobby"
       redirect_to root_path
+      return
     end
 
     @creator = @game.creator == current_user.email
   end
 
-  def unsubscribe
-    # @game = Game.find(params[:id])
-
-    p "============================"
-    p params
-    p "============================"
-    p params["player_id"]
-    p "============================"
-
-    head :ok
-  end
-
   private
 
-  def get_random_color
-    [ "#1570BF",
+  def get_random_color(index)
+    colors = [
+      "#1570BF",
+      "#2B7F3A",
       "#ABD948",
       "#F2B90F",
       "#D97904",
       "#F23827",
-      "#2B7F3A",
-      "#0D8D88" ].sample
+      "#0D8D88"
+    ]
+    colors[index % colors.count]
   end
 end

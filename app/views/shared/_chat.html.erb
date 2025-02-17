@@ -1,7 +1,14 @@
 <section class="chat">
-	<div class="chat__messages">
-		<p class="chat__message">Сообщение 1</p>
-		<p class="chat__message">Сообщение 2</p>
+	<div class="chat__messages" id="chat_<%= game.id %>">
+		<% game.chat_messages.each do |message| %>
+			<p class="chat__message">
+				<span><%= message.author %></span>
+				<span><%= message.message %></span>
+			</p>
+		<% end %>
 	</div>
-	<input class="chat__input" type="text" placeholder="Написать сообщение...">
+	<%= form_with model: [game, ChatMessage.new] do |f| %>
+		<%= f.text_field :message, class: "chat__input" %>
+		<%= f.submit "Send" %>
+	<% end %>
 </section>

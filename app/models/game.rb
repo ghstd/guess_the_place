@@ -5,6 +5,7 @@ class Game < ApplicationRecord
   has_many :game_players, dependent: :destroy
   has_many :users, through: :game_players
   has_many :game_coordinates, dependent: :destroy
+  has_many :chat_messages, dependent: :destroy
 
   after_create_commit do
     games = Game.where(phase: "lobby")
