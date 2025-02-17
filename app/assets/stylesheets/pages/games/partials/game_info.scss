@@ -1,4 +1,36 @@
 .game_info {
 	color: var(--light);
 	padding: 1rem;
+
+	&__title {
+		font-size: 1.4rem;
+	}
+
+	&__users {}
+
+	&__user {}
+
+	.user_info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+
+		&__name {
+			font-weight: 600;
+			font-size: 1.2rem;
+		}
+
+		&__ready {}
+
+		&__ready--active {
+			color: var(--light);
+			background-color: var(--green);
+		}
+
+		&__ready--alert {
+			color: var(--light);
+			background-color: var(--violet);
+		}
+	}
 }

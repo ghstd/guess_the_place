@@ -1,0 +1,11 @@
+<turbo-stream action="replace" target="user_ready_<%= player.id %>">
+  <template>
+		<% if player.connection == "offline" %>
+			<span class="user_info__ready user_info__ready--alert" id="user_ready_<%= player.id %>">Offline</span>
+		<% elsif player.ready %>
+			<span class="user_info__ready user_info__ready--active" id="user_ready_<%= player.id %>">Готов</span>
+		<% else %>
+			<span class="user_info__ready" id="user_ready_<%= player.id %>"></span>
+		<% end %>
+  </template>
+</turbo-stream>

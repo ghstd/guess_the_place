@@ -8,13 +8,14 @@
 	<%= render partial: "shared/footer" %>
 </aside>
 
-<main class="game">
+<main class="game" data-controller="game_observer">
 	<div class="game__title">
 		<h1><%= @game.name %></h1>
 		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
 	</div>
 	<section class="game__content" data-controller="panorama" data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>" id="game_content">
 		<meta data-game-id="<%= @game.id %>">
+		<meta data-player-id="<%= @game_player.id %>">
 		<meta data-game-coords="<%= @game.current_coordinates.as_json %>" id="game_coords">
 		<div class="game__panorama"></div>
 		<div class="game__controls">

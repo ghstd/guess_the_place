@@ -1,8 +1,11 @@
 <section class="game_info">
-	<h2>Участники:</h2>
-	<ul>
-		<% game.users.each do |user| %>
-			<li><%= user.email %></li>
+	<h2 class="game_info__title">Участники:</h2>
+	<ul class="game_info__users">
+		<% game.game_players.each do |player| %>
+			<li class="game_info__user user_info">
+				<span class="user_info__name" style="color: <%= player.color %>;"><%= player.user.email %></span>
+				<span class="user_info__ready" id="user_ready_<%= player.id %>"></span>
+			</li>
 		<% end %>
 	</ul>
 </section>

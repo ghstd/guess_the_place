@@ -57,7 +57,7 @@ class Game < ApplicationRecord
   end
 
   def all_players_ready?
-    game_players.where(ready: false).none?
+    game_players.where.not(connection: "offline").where(ready: false).none?
   end
 
   def next_step!

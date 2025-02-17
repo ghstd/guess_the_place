@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       patch :update_game_phase
       patch :add_player
       patch :player_ready
+      post :unsubscribe
     end
   end
 end

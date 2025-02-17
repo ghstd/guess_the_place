@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_16_174114) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_165911) do
   create_table "game_coordinates", force: :cascade do |t|
     t.float "lat"
     t.float "long"
@@ -28,6 +28,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_16_174114) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "current_answer"
+    t.string "color"
+    t.string "connection", default: "offline"
     t.index ["game_id"], name: "index_game_players_on_game_id"
     t.index ["user_id"], name: "index_game_players_on_user_id"
   end

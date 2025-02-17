@@ -14,7 +14,7 @@ class GamesController < ApplicationController
     @game.steps = 2
     @game.current_step = 1
     @game.phase = "lobby"
-    @game.users << current_user
+    @game.game_players.build(user: current_user, color: get_random_color)
     @game.creator = current_user.email
 
     coords = RandomCoordinate.order(Arel.sql("RANDOM()")).limit(@game.steps).pluck("lat", "long")
@@ -31,18 +31,20 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find_by(id: params[:id])
-
     if @game.nil?
       redirect_to root_path
+      return
     end
 
-    game_player = @game.game_players.find_by(user: current_user)
-    if !game_player
+    @game_player = @game.game_players.find_by(user: current_user)
+    if !@game_player
       redirect_to root_path
+      return
     end
 
     if @game.phase == "lobby"
       redirect_to lobby_game_path(@game)
+      return
     end
 
     @game.with_lock do
@@ -60,7 +62,9 @@ class GamesController < ApplicationController
 
   def add_player
     @game = Game.find(params[:id])
-    @game.game_players.find_or_create_by(user: current_user)
+    @game.game_players.find_or_create_by(user: current_user) do |player|
+      player.color = get_random_color
+    end
 
     redirect_to lobby_game_path(@game)
   end
@@ -84,5 +88,27 @@ class GamesController < ApplicationController
     @creator = @game.creator == current_user.email
   end
 
+  def unsubscribe
+    # @game = Game.find(params[:id])
+
+    p "============================"
+    p params
+    p "============================"
+    p params["player_id"]
+    p "============================"
+
+    head :ok
+  end
+
   private
+
+  def get_random_color
+    [ "#1570BF",
+      "#ABD948",
+      "#F2B90F",
+      "#D97904",
+      "#F23827",
+      "#2B7F3A",
+      "#0D8D88" ].sample
+  end
 end

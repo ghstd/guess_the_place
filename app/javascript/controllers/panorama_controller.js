@@ -49,18 +49,20 @@ export default class extends Controller {
 
 	async connect() {
 
-		this.state = {
-			ready: false,
-			answer: ''
-		}
-
 		this.updatePanoramaHandler = this.updatePanoramaHandler.bind(this)
 		this.clickOptionHandler = this.clickOptionHandler.bind(this)
 
 		document.addEventListener('turbo:before-stream-render', this.updatePanoramaHandler)
 		this.element.addEventListener('click', this.clickOptionHandler)
 
+		this.state = {
+			ready: false,
+			answer: ''
+		}
+
 		const gameId = this.element.querySelector('meta[data-game-id]').dataset.gameId
+		const playerId = this.element.querySelector('meta[data-player-id]').dataset.playerId
+
 		const coordsJson = this.element.querySelector('meta[data-game-coords]').dataset.gameCoords
 		const coords = JSON.parse(coordsJson)
 
@@ -101,11 +103,11 @@ export default class extends Controller {
 				await NetworkClient.setPlayerReady(gameId, this.state)
 			}
 		}
-
 	}
 
 	disconnect() {
 		document.removeEventListener('turbo:before-stream-render', this.updatePanoramaHandler)
+		this.element.removeEventListener('click', this.clickOptionHandler)
 	}
 }
 
