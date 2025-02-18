@@ -4,14 +4,14 @@
 
 import { application } from "./application"
 
-import HelloController from "./hello_controller"
 import NavigationNestedMenuController from "./navigation_nested_menu_controller"
 import PanoramaController from "./panorama_controller"
 import LobbyController from "./lobby_controller"
 import GameObserverController from "./game_observer_controller"
+import YoutubePlayerController from "./youtube_player_controller"
 
-application.register("hello", HelloController)
 application.register("navigation", NavigationNestedMenuController)
 application.register("panorama", PanoramaController)
 application.register("lobby", LobbyController)
 application.register("game_observer", GameObserverController)
+application.register("youtube_player", YoutubePlayerController)

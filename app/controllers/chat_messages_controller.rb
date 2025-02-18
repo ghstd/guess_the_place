@@ -12,6 +12,12 @@ class ChatMessagesController < ApplicationController
       locals: { game: @game, chat_message: @chat_message }
     )
 
+    Turbo::StreamsChannel.broadcast_render_to(
+      "game_#{@game.id}",
+      partial: "chat_messages/create",
+      locals: { game: @game, chat_message: @chat_message }
+    )
+
     head :ok
 
     # respond_to do |format|
