@@ -1,6 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import consumer from "../lib/consumer"
 
+import { getYouTubeVideoId } from "../lib/utils"
+
 export default class extends Controller {
 
 	initPlayer() {
@@ -9,8 +11,7 @@ export default class extends Controller {
 			this.player = new YT.Player(playerEl, {
 				width: '100%',
 				height: '100%',
-				// videoId: '',
-				videoId: '-vvhIJ0jbHE',
+				videoId: '',
 				playerVars: {
 					autoplay: 0,
 					rel: 0
@@ -55,6 +56,9 @@ export default class extends Controller {
 			case 'stop':
 				this.stopPlayer(data.time)
 				break
+			case 'set_video':
+				this.setVideo(data.videoId, data.url)
+				break
 		}
 	}
 
@@ -80,6 +84,27 @@ export default class extends Controller {
 		}
 
 		setTimeout(() => this.isUserClickOnPlayer = true, 1000)
+	}
+
+	setVideo(videoId, url) {
+		this.player.cueVideoById(videoId)
+		const input = this.element.querySelector('.youtube_player__input')
+		input.value = url
+	}
+
+	setVideoButtonHandler = () => {
+		const input = this.element.querySelector('.youtube_player__input')
+		if (!input) return
+		const inputValue = input.value.trim()
+		input.value = ''
+		const videoId = getYouTubeVideoId(inputValue)
+		if (!videoId) return
+
+		this.subscription.send({
+			event: 'set_video',
+			videoId: videoId,
+			url: inputValue
+		})
 	}
 
 	connect() {
@@ -109,9 +134,14 @@ export default class extends Controller {
 				received: (data) => this.playerEventHandler(data),
 			}
 		)
+
+		const sendButton = this.element.querySelector('.youtube_player__button')
+		sendButton.addEventListener('click', this.setVideoButtonHandler)
 	}
 
 	disconnect() {
 		this.subscription.unsubscribe()
+		const sendButton = this.element.querySelector('.youtube_player__button')
+		sendButton.removeEventListener('click', this.setVideoButtonHandler)
 	}
 }

@@ -1,27 +1,48 @@
 .game_info {
 	color: var(--light);
 	padding: 1rem;
+	overflow-y: auto;
 
 	&__title {
 		font-size: 1.4rem;
+		margin: 0 0 0.5rem 0;
 	}
 
-	&__users {}
+	&__users {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 
-	&__user {}
+	&__user {
+		padding: 0 0 0 1rem;
+		border-left: 1px solid var(--light);
+	}
 
 	.user_info {
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.2rem;
 
 		&__name {
 			font-weight: 600;
 			font-size: 1.2rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
-		&__ready {}
+		&__status {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		&__ready {
+			padding: 0 1rem;
+			border-radius: var(--border_radius);
+			font-weight: 700;
+		}
 
 		&__ready--active {
 			color: var(--light);

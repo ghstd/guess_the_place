@@ -17,7 +17,7 @@ export default class NetworkClient {
 				throw new Error(`Ошибка ${response.status}: ${response.statusText}`)
 			}
 		} catch (error) {
-			console.error("Ошибка в NetworkClient.getRandomStreets:", error)
+			console.error("Ошибка в NetworkClient.setPlayerReady:", error)
 		}
 	}
 }

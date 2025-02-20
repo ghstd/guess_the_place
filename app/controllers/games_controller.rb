@@ -6,11 +6,15 @@ class GamesController < ApplicationController
     @games = Game.includes(:users).where(phase: "lobby")
   end
 
+  def stories
+    @stories = Story.all
+  end
+
   def create
     @game = Game.new
 
-    @game.game_type = "Random"
     @game.name = "Random"
+    @game.game_type = "Random"
     @game.steps = 2
     @game.current_step = 1
     @game.phase = "lobby"
@@ -23,6 +27,30 @@ class GamesController < ApplicationController
       coords.each do |coord|
         @game.game_coordinates.create(lat: coord[0], long: coord[1])
       end
+      redirect_to lobby_game_path(@game)
+    else
+      redirect_to root_path
+    end
+  end
+
+  def create_story
+    story = Story.find(params[:story_id])
+
+    @game = Game.new
+    @game.story = story
+    @game.name = story.name
+    @game.game_type = "Story"
+    @game.steps = story.story_questions.count
+    @game.current_step = 1
+    @game.phase = "lobby"
+    @game.game_players.build(user: current_user, color: get_random_color(0))
+    @game.creator = current_user.email
+
+    @game.current_question = story.story_questions.first
+    @game.answer = @game.current_question.answer
+    @game.current_coordinates = @game.current_question.coordinates
+
+    if @game.save
       redirect_to lobby_game_path(@game)
     else
       redirect_to root_path
@@ -47,9 +75,11 @@ class GamesController < ApplicationController
       return
     end
 
-    @game.with_lock do
-      unless @game.game_state_exists?
-        @game.set_game_state!
+    if @game.game_type == "Random"
+      @game.with_lock do
+        unless @game.game_state_exists?
+          @game.set_game_state!
+        end
       end
     end
   end

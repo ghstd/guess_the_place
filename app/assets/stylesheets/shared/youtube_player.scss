@@ -11,4 +11,16 @@
 	&__controls {
 		display: flex;
 	}
+
+	&__input {
+		flex-grow: 1;
+		outline: none;
+		font-weight: 500;
+		padding: 0.2rem 0.5rem;
+	}
+
+	&__button {
+		min-width: 15%;
+		cursor: pointer;
+	}
 }

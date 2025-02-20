@@ -9,9 +9,11 @@ import PanoramaController from "./panorama_controller"
 import LobbyController from "./lobby_controller"
 import GameObserverController from "./game_observer_controller"
 import YoutubePlayerController from "./youtube_player_controller"
+import ChatController from "./chat_controller"
 
 application.register("navigation", NavigationNestedMenuController)
 application.register("panorama", PanoramaController)
 application.register("lobby", LobbyController)
 application.register("game_observer", GameObserverController)
 application.register("youtube_player", YoutubePlayerController)
+application.register("chat", ChatController)

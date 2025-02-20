@@ -4,10 +4,24 @@
   </template>
 </turbo-stream>
 
+<% if game.game_type == "Story" %>
+	<turbo-stream action="replace" target="game_question">
+		<template>
+			<div class="game__question" id="game_question"><%= game.current_question.question %></div>
+		</template>
+	</turbo-stream>
+<% end %>
+
 <turbo-stream action="update" target="game_options">
   <template>
-		<% game.current_streets.each do |street| %>
-			<li class="game__option"><%= street %></li>
+		<% if game.game_type == "Story" %>
+			<% game.current_question.options.each do |option| %>
+				<li class="game__option"><%= option %></li>
+			<% end %>
+		<% else %>
+			<% game.current_streets.each do |street| %>
+				<li class="game__option"><%= street %></li>
+			<% end %>
 		<% end %>
   </template>
 </turbo-stream>

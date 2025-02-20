@@ -18,10 +18,19 @@
 		<meta data-player-id="<%= @game_player.id %>">
 		<meta data-game-coords="<%= @game.current_coordinates.as_json %>" id="game_coords">
 		<div class="game__panorama"></div>
+		<% if @game.game_type == "Story" %>
+			<div class="game__question" id="game_question"><%= @game.current_question.question %></div>
+		<% end %>
 		<div class="game__controls">
 			<ul class="game__options" id="game_options">
-				<% @game.current_streets.each do |street| %>
-					<li class="game__option"><%= street %></li>
+				<% if @game.game_type == "Story" %>
+					<% @game.current_question.options.each do |option| %>
+						<li class="game__option"><%= option %></li>
+					<% end %>
+				<% else %>
+					<% @game.current_streets.each do |street| %>
+						<li class="game__option"><%= street %></li>
+					<% end %>
 				<% end %>
 			</ul>
 			<button class="button_regular" id="game_ready_button">Готов</button>

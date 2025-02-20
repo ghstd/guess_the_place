@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_203306) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_20_163209) do
   create_table "chat_messages", force: :cascade do |t|
     t.integer "game_id", null: false
     t.string "author"
     t.text "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "author_color"
     t.index ["game_id"], name: "index_chat_messages_on_game_id"
   end
 
@@ -55,6 +56,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_203306) do
     t.text "current_streets"
     t.string "game_type"
     t.string "name"
+    t.integer "story_id"
+    t.integer "current_question_id"
+    t.index ["current_question_id"], name: "index_games_on_current_question_id"
+    t.index ["story_id"], name: "index_games_on_story_id"
   end
 
   create_table "games_statistics", force: :cascade do |t|
@@ -73,6 +78,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_203306) do
     t.float "long"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "stories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "story_questions", force: :cascade do |t|
+    t.integer "story_id", null: false
+    t.string "question"
+    t.string "answer"
+    t.text "options"
+    t.text "coordinates"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["story_id"], name: "index_story_questions_on_story_id"
   end
 
   create_table "streets", force: :cascade do |t|
@@ -98,5 +120,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_203306) do
   add_foreign_key "game_coordinates", "games"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "users"
+  add_foreign_key "games", "stories"
+  add_foreign_key "games", "story_questions", column: "current_question_id"
   add_foreign_key "games_statistics", "users"
+  add_foreign_key "story_questions", "stories"
 end

@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   get "/rating" => "pages#rating"
 
   resources :games, except: [ :new, :edit, :destroy ] do
+    collection do
+      get :stories
+      post :create_story
+    end
+
     member do
       get :lobby
       patch :update_game_phase

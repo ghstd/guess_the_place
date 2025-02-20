@@ -5,7 +5,8 @@
 	<li class="navigation__nested_menu">
 		<span class="navigation__link">Совместная</span>
 		<div>
-			<%= link_to "Новая", games_path, class: "navigation__link", data: {turbo_method: :post}  %>
+			<%= link_to "Сюжетная", stories_games_path, class: "navigation__link"  %>
+			<%= link_to "Случайная", games_path, class: "navigation__link", data: {turbo_method: :post}  %>
 			<%= link_to "Созданная", games_path, class: "navigation__link" %>
 		</div>
 	</li>

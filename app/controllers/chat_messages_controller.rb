@@ -3,6 +3,7 @@ class ChatMessagesController < ApplicationController
     @game = Game.find(params[:game_id])
     @chat_message = @game.chat_messages.create(
       author: current_user.email,
+      author_color: @game.game_players.find_by(user: current_user).color,
       message: params[:chat_message][:message]
     )
 

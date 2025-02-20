@@ -7,6 +7,9 @@ class Game < ApplicationRecord
   has_many :game_coordinates, dependent: :destroy
   has_many :chat_messages, dependent: :destroy
 
+  belongs_to :story
+  belongs_to :current_question, class_name: "StoryQuestion", optional: true
+
   after_create_commit do
     games = Game.where(phase: "lobby")
     broadcast_render_to "games", partial: "games/turbo_stream/add_index_games", locals: { games: games }
@@ -31,14 +34,18 @@ class Game < ApplicationRecord
           )
         end
 
-        self.update!(phase: "delete")
+        # self.update!(phase: "delete")
       when "delete"
         self.destroy
       end
     end
 
     if saved_change_to_attribute?(:current_step)
-      set_game_state!
+      if game_type == "Story"
+        set_story_game_state!
+      else
+        set_game_state!
+      end
       broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: { game: self }
     end
   end
@@ -55,6 +62,15 @@ class Game < ApplicationRecord
     set_of_streets.map! { |street| normalize_street_name(street) }
     set_of_streets.push(street).shuffle!
     update(answer: street, current_coordinates: coords, current_streets: set_of_streets)
+  end
+
+  def set_story_game_state!
+    next_question = story.story_questions[current_step - 1]
+    update(
+      current_question: next_question,
+      answer: next_question.answer,
+      current_coordinates: next_question.coordinates
+    )
   end
 
   def all_players_ready?

@@ -40,3 +40,4 @@
 
 # ==================
 /my_temp_files
+/config/puma.rb
