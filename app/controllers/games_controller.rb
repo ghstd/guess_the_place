@@ -29,6 +29,9 @@ class GamesController < ApplicationController
       end
       redirect_to lobby_game_path(@game)
     else
+      p "================"
+      p @game.errors.full_messages
+      p "================"
       redirect_to root_path
     end
   end

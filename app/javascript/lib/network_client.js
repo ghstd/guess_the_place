@@ -1,11 +1,9 @@
 export default class NetworkClient {
 
-	static SERVER_URL = 'http://127.0.0.1:3000'
-
-	static async setPlayerReady(gameId, playerState) {
+	static async setPlayerReady(serverUrl, gameId, playerState) {
 		try {
 			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-			const response = await fetch(`${this.SERVER_URL}/games/${gameId}/player_ready`, {
+			const response = await fetch(`${serverUrl}/games/${gameId}/player_ready`, {
 				method: 'PATCH',
 				headers: {
 					'X-CSRF-Token': csrfToken,

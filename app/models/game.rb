@@ -7,7 +7,7 @@ class Game < ApplicationRecord
   has_many :game_coordinates, dependent: :destroy
   has_many :chat_messages, dependent: :destroy
 
-  belongs_to :story
+  belongs_to :story, optional: true
   belongs_to :current_question, class_name: "StoryQuestion", optional: true
 
   after_create_commit do

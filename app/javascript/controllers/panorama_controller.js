@@ -95,12 +95,12 @@ export default class extends Controller {
 				this.state.answer = ''
 				readyButton.classList.remove('active')
 				readyButton.textContent = 'Готов'
-				await NetworkClient.setPlayerReady(gameId, this.state)
+				await NetworkClient.setPlayerReady(this.element.dataset.serverUrl, gameId, this.state)
 			} else {
 				this.state.ready = true
 				readyButton.classList.add('active')
 				readyButton.textContent = 'Отмена'
-				await NetworkClient.setPlayerReady(gameId, this.state)
+				await NetworkClient.setPlayerReady(this.element.dataset.serverUrl, gameId, this.state)
 			}
 		}
 	}
