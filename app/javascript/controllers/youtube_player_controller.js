@@ -24,6 +24,8 @@ export default class extends Controller {
 	}
 
 	onPlayerStateChange(event) {
+		console.log('event.data:', event.data)
+		console.log(YT.PlayerState)
 		switch (event.data) {
 			case YT.PlayerState.PLAYING:
 				if (this.isUserClickOnPlayer) {
@@ -80,6 +82,7 @@ export default class extends Controller {
 			this.player.playVideo()
 			this.player.seekTo(time)
 		} else {
+			console.log('timeDiff > latency = pauseVideo')
 			this.player.pauseVideo()
 		}
 
