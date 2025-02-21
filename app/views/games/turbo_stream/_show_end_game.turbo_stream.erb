@@ -1,9 +1,12 @@
 <turbo-stream action="update" target="game_content">
   <template>
-		<div>
+		<ul class="game__results">
 			<% game.game_players.each do |game_player| %>
-				<p><%= game_player.user.email %>: <%= game_player.answers %></p>
+				<li class="game__result">
+					<span style="color: <%= game_player.color %>;"><%= game_player.user.email %>:</span>
+					<span><%= game_player.answers %></span>
+				</li>
 			<% end %>
-		</div>
+		</ul>
   </template>
 </turbo-stream>

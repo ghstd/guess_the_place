@@ -81,5 +81,23 @@
 		}
 	}
 
+	&__results {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem;
+	}
+
+	&__result {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 1.2rem;
+
+		&:last-child {
+			font-weight: 700;
+		}
+	}
 
 }

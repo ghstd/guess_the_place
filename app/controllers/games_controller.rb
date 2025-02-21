@@ -29,9 +29,6 @@ class GamesController < ApplicationController
       end
       redirect_to lobby_game_path(@game)
     else
-      p "================"
-      p @game.errors.full_messages
-      p "================"
       redirect_to root_path
     end
   end
@@ -91,6 +88,8 @@ class GamesController < ApplicationController
     game = Game.find(params[:id])
     game_player = game.game_players.find_by(user: current_user)
     game_player.ready!(params[:ready], params[:answer])
+
+    head :ok
   end
 
   def add_player
