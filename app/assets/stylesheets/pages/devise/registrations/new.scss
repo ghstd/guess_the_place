@@ -2,7 +2,7 @@
 .devise_registration {
 	align-self: flex-start;
 	background-color: var(--dark_2);
-	width: 20%;
+	width: 400px;
 	min-width: 300px;
 	margin: 5rem auto;
 	padding: 2rem;
@@ -14,6 +14,7 @@
 
 	&__title {
 		font-size: 2rem;
+		margin: 0 0 1rem 0;
 	}
 
 	&__form {
@@ -38,9 +39,8 @@
 
 	&__submit {
 		display: block;
-		width: 50%;
 		margin: 1rem auto;
-		font-weight: 600;
+		font-weight: 700;
 		white-space: nowrap;
 	}
 

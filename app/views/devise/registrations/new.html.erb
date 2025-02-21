@@ -1,5 +1,5 @@
 <main class="devise_registration">
-	<h2 class="devise_registration__title">Sign up</h2>
+	<h2 class="devise_registration__title">Регистрация</h2>
 
 	<%= form_with model: resource, url: registration_path(resource_name), class: "devise_registration__form" do |f| %>
 		<%= render "devise/shared/error_messages", resource: resource %>
@@ -12,7 +12,7 @@
 		<div class="field">
 			<%= f.label :password %>
 			<% if @minimum_password_length %>
-			<em>(<%= @minimum_password_length %> characters minimum)</em>
+			<em>(<%= @minimum_password_length %> символов минимум)</em>
 			<% end %><br />
 			<%= f.password_field :password, autocomplete: "new-password" %>
 		</div>
@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="actions">
-			<%= f.button "Sign up", class: "devise_registration__submit button_regular" %>
+			<%= f.button "Создать профиль", class: "devise_registration__submit button_regular" %>
 		</div>
 	<% end %>
 

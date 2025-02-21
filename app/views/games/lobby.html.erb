@@ -8,12 +8,12 @@
 </aside>
 
 <main class="lobby" data-controller="lobby" id="meta">
-	<h1 class="lobby__title">Lobby</h1>
+	<h1 class="lobby__title">Lobby <%= @game.id %></h1>
 	<section class="lobby__content">
 		<h2>Участники:</h2>
 		<ul id="lobby_members">
 			<% @game.users.each do |user| %>
-				<li><%= user.email %></li>
+				<li><%= user.short_email %></li>
 			<% end %>
 		</ul>
 		<div class="lobby__timer"></div>

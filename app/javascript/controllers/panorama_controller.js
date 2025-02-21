@@ -66,26 +66,26 @@ export default class extends Controller {
 		const coordsJson = this.element.querySelector('meta[data-game-coords]').dataset.gameCoords
 		const coords = JSON.parse(coordsJson)
 
-		// const loader = new Loader({
-		// 	apiKey: this.element.dataset.apiKey,
-		// 	version: 'weekly'
-		// })
+		const loader = new Loader({
+			apiKey: this.element.dataset.apiKey,
+			version: 'weekly'
+		})
 
-		// loader.load()
-		// 	.then(async () => {
+		loader.load()
+			.then(async () => {
 
-		// 		const panoramaEl = this.element.querySelector('.game__panorama')
-		// 		const position = { lat: coords[0], lng: coords[1] }
-		// 		this.pano = new google.maps.StreetViewPanorama(panoramaEl, {
-		// 			position: position,
-		// 			clickToGo: false,
-		// 			linksControl: false,
-		// 			disableDefaultUI: true,
-		// 			showRoadLabels: false,
-		// 			fullscreenControl: true
-		// 		})
-		// 	})
-		// 	.catch(error => console.log(`Error in connect() ==> loader.load(): ${error}`))
+				const panoramaEl = this.element.querySelector('.game__panorama')
+				const position = { lat: coords[0], lng: coords[1] }
+				this.pano = new google.maps.StreetViewPanorama(panoramaEl, {
+					position: position,
+					clickToGo: false,
+					linksControl: false,
+					disableDefaultUI: true,
+					showRoadLabels: false,
+					fullscreenControl: true
+				})
+			})
+			.catch(error => console.log(`Error in connect() ==> loader.load(): ${error}`))
 
 		const readyButton = this.element.querySelector('#game_ready_button')
 		readyButton.onclick = async () => {

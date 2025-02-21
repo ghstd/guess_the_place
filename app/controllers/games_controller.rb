@@ -19,7 +19,7 @@ class GamesController < ApplicationController
     @game.current_step = 1
     @game.phase = "lobby"
     @game.game_players.build(user: current_user, color: get_random_color(0))
-    @game.creator = current_user.email
+    @game.creator = current_user.short_email
 
     coords = RandomCoordinate.order(Arel.sql("RANDOM()")).limit(@game.steps).pluck("lat", "long")
 
@@ -44,7 +44,7 @@ class GamesController < ApplicationController
     @game.current_step = 1
     @game.phase = "lobby"
     @game.game_players.build(user: current_user, color: get_random_color(0))
-    @game.creator = current_user.email
+    @game.creator = current_user.short_email
 
     @game.current_question = story.story_questions.first
     @game.answer = @game.current_question.answer
@@ -119,7 +119,7 @@ class GamesController < ApplicationController
       return
     end
 
-    @creator = @game.creator == current_user.email
+    @creator = @game.creator == current_user.short_email
   end
 
   private

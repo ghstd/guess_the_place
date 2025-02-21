@@ -10,6 +10,12 @@
 # end
 
 
+# file_path = Rails.root.join('my_temp_files', 'lib', 'random.json')
+# json_data = JSON.parse(File.read(file_path))
+# json_data.each do |lat, long|
+#   RandomCoordinate.create!(lat: lat, long: long)
+# end
+
 
 # file = Rails.root.join("lib", "streets.txt")
 # File.readlines(file, chomp: true).each do |street|
@@ -26,52 +32,66 @@
 # p unique_words
 
 
-data = [
-  {
-    name: 'Cюжетная игра 1',
-    questions: [
-      {
-        question: 'вопрос 1',
-        answer: 'ответ 1',
-        options: [ 'ответ 1-1', 'ответ 1-1', 'ответ 1-1' ],
-        coordinates: [ 48.451200, 35.056527 ]
-      },
-      {
-        question: 'вопрос 2',
-        answer: 'ответ 2',
-        options: [ 'ответ 2-2', 'ответ 2-2', 'ответ 2-2' ],
-        coordinates: [ 48.462173, 35.032184 ]
-      }
-    ]
-  },
-  {
-    name: 'Cюжетная игра 2',
-    questions: [
-      {
-        question: 'вопрос 3',
-        answer: 'ответ 1',
-        options: [ 'ответ 1-1', 'ответ 1-1', 'ответ 1-1' ],
-        coordinates: [ 48.451200, 35.056527 ]
-      },
-      {
-        question: 'вопрос 4',
-        answer: 'ответ 2',
-        options: [ 'ответ 2-2', 'ответ 2-2', 'ответ 2-2' ],
-        coordinates: [ 48.462173, 35.032184 ]
-      }
-    ]
-  }
-]
+# data = [
+#   {
+#     name: 'Cюжетная игра 1',
+#     questions: [
+#       {
+#         question: 'вопрос 1',
+#         answer: 'ответ 1',
+#         options: [ 'ответ 1-1', 'ответ 1-1', 'ответ 1-1' ],
+#         coordinates: [ 48.451200, 35.056527 ]
+#       },
+#       {
+#         question: 'вопрос 2',
+#         answer: 'ответ 2',
+#         options: [ 'ответ 2-2', 'ответ 2-2', 'ответ 2-2' ],
+#         coordinates: [ 48.462173, 35.032184 ]
+#       }
+#     ]
+#   },
+#   {
+#     name: 'Cюжетная игра 2',
+#     questions: [
+#       {
+#         question: 'вопрос 3',
+#         answer: 'ответ 1',
+#         options: [ 'ответ 1-1', 'ответ 1-1', 'ответ 1-1' ],
+#         coordinates: [ 48.451200, 35.056527 ]
+#       },
+#       {
+#         question: 'вопрос 4',
+#         answer: 'ответ 2',
+#         options: [ 'ответ 2-2', 'ответ 2-2', 'ответ 2-2' ],
+#         coordinates: [ 48.462173, 35.032184 ]
+#       }
+#     ]
+#   }
+# ]
 
-data.each do |game|
-  story = Story.create!(name: game[:name])
+# data.each do |game|
+#   story = Story.create!(name: game[:name])
 
-  game[:questions].each do |question|
-    story.story_questions.create!(
-      question: question[:question],
-      answer: question[:answer],
-      options: question[:options],
-      coordinates: question[:coordinates]
-    )
-  end
+#   game[:questions].each do |question|
+#     story.story_questions.create!(
+#       question: question[:question],
+#       answer: question[:answer],
+#       options: question[:options],
+#       coordinates: question[:coordinates]
+#     )
+#   end
+# end
+
+file_path = Rails.root.join('my_temp_files', 'lib', 'story.json')
+json_data = JSON.parse(File.read(file_path))
+
+story = Story.create!(name: json_data["name"])
+
+json_data["questions"].each do |question|
+  story.story_questions.create!(
+    question: question["question"],
+    answer: question["answer"],
+    options: question["options"],
+    coordinates: question["coordinates"]
+  )
 end

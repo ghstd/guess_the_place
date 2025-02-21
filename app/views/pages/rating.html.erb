@@ -8,7 +8,7 @@
 <main class="home">
 	<h1>Рейтинг</h1>
 	<% @users.each do |user| %>
-		<h2><%= user.email %></h2>
+		<h2><%= user.short_email %></h2>
 		<% user.games_statistics.each do |game| %>
 			<p>name: <%= game.name %></p>
 			<p>game_type: <%= game.game_type %></p>

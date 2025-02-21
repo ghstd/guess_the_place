@@ -3,7 +3,7 @@
 	<ul class="game_info__users">
 		<% game.game_players.each do |player| %>
 			<li class="game_info__user user_info">
-				<span class="user_info__name" style="color: <%= player.color %>;"><%= player.user.email %></span>
+				<span class="user_info__name" style="color: <%= player.color %>;"><%= player.user.short_email %></span>
 				<div class="user_info__status">
 					<span>:</span>
 					<span class="user_info__ready" id="user_ready_<%= player.id %>"></span>
