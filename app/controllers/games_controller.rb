@@ -15,7 +15,7 @@ class GamesController < ApplicationController
 
     @game.name = "Random"
     @game.game_type = "Random"
-    @game.steps = 2
+    @game.steps = 10
     @game.current_step = 1
     @game.phase = "lobby"
     @game.game_players.build(user: current_user, color: get_random_color(0))

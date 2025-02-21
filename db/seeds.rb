@@ -82,16 +82,16 @@
 #   end
 # end
 
-file_path = Rails.root.join('my_temp_files', 'lib', 'story.json')
-json_data = JSON.parse(File.read(file_path))
+# file_path = Rails.root.join('my_temp_files', 'lib', 'story.json')
+# json_data = JSON.parse(File.read(file_path))
 
-story = Story.create!(name: json_data["name"])
+# story = Story.create!(name: json_data["name"])
 
-json_data["questions"].each do |question|
-  story.story_questions.create!(
-    question: question["question"],
-    answer: question["answer"],
-    options: question["options"],
-    coordinates: question["coordinates"]
-  )
-end
+# json_data["questions"].each do |question|
+#   story.story_questions.create!(
+#     question: question["question"],
+#     answer: question["answer"],
+#     options: question["options"],
+#     coordinates: question["coordinates"]
+#   )
+# end
