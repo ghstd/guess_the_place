@@ -105,6 +105,12 @@ export default class extends Controller {
 		})
 	}
 
+	clearButtonHandler = () => {
+		const input = this.element.querySelector('.youtube_player__input')
+		if (!input) return
+		input.value = ''
+	}
+
 	connect() {
 
 		this.isUserClickOnPlayer = true
@@ -133,13 +139,18 @@ export default class extends Controller {
 			}
 		)
 
-		const sendButton = this.element.querySelector('.youtube_player__button')
+		const sendButton = this.element.querySelector('.player_button__send')
+		const clearButton = this.element.querySelector('.player_button__clear')
 		sendButton.addEventListener('click', this.setVideoButtonHandler)
+		clearButton.addEventListener('click', this.clearButtonHandler)
+
 	}
 
 	disconnect() {
 		this.subscription.unsubscribe()
-		const sendButton = this.element.querySelector('.youtube_player__button')
+		const sendButton = this.element.querySelector('.player_button__send')
+		const clearButton = this.element.querySelector('.player_button__clear')
 		sendButton.removeEventListener('click', this.setVideoButtonHandler)
+		clearButton.removeEventListener('click', this.clearButtonHandler)
 	}
 }
