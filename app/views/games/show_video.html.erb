@@ -1,0 +1,30 @@
+<%= turbo_stream_from "game_#{@game.id}" %>
+
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "game_info", locals: { game: @game } %>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="game" data-controller="game_observer">
+	<div class="game__title">
+		<h1><%= @game.name %></h1>
+		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
+	</div>
+	<section class="game__content" 
+						data-server-url="<%= ENV["SERVER_URL"] %>" 
+						id="game_content">
+		<meta data-game-id="<%= @game.id %>">
+		<meta data-player-id="<%= @game_player.id %>">
+		<div class="game__panorama" style="height: 100%;">
+			<%= render partial: "shared/youtube_player", locals: { height: "100%" } %>
+		</div>
+	</section>
+</main>
+
+<aside class="right_sidebar">
+	<%= render partial: "shared/header" %>
+	<%= render partial: "shared/chat", locals: { game: @game } %>
+</aside>

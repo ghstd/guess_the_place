@@ -57,6 +57,21 @@ class GamesController < ApplicationController
     end
   end
 
+  def create_video
+    @game = Game.new
+    @game.name = "Video"
+    @game.game_type = "Video"
+    @game.phase = "lobby"
+    @game.game_players.build(user: current_user, color: get_random_color(0))
+    @game.creator = current_user.short_email
+
+    if @game.save
+      redirect_to lobby_game_path(@game)
+    else
+      redirect_to root_path
+    end
+  end
+
   def show
     @game = Game.find_by(id: params[:id])
     if @game.nil?
@@ -67,6 +82,11 @@ class GamesController < ApplicationController
     @game_player = @game.game_players.find_by(user: current_user)
     if !@game_player
       redirect_to root_path
+      return
+    end
+
+    if @game.game_type == "Video"
+      render :show_video
       return
     end
 

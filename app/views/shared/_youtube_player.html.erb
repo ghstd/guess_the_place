@@ -1,4 +1,8 @@
-<section class="youtube_player" data-controller="youtube_player">
+<% if local_assigns[:height].present? %>
+	<section class="youtube_player" data-controller="youtube_player" style="height: <%= height %>;">
+<% else %>
+	<section class="youtube_player" data-controller="youtube_player">
+<% end %>
   <div class="youtube_player__container"></div>
 	<div class="youtube_player__controls">
 		<input class="youtube_player__input" type="text" placeholder="Введите ссылку">

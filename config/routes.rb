@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     collection do
       get :stories
       post :create_story
+      post :create_video
     end
 
     member do
