@@ -3,7 +3,7 @@
 		<% game.chat_messages.each do |message| %>
 			<p class="chat__message">
 				<span class="chat__author" style="background-color: <%= message.author_color %>;"><%= message.author %></span>
-				<span><%= message.message %></span>
+				<span><%= sanitize(message.message) %></span>
 			</p>
 		<% end %>
 	</div>

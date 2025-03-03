@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
   serialize :current_coordinates, coder: JSON
   serialize :current_streets, coder: JSON
+  serialize :lesson_state, coder: JSON
 
   has_many :game_players, dependent: :destroy
   has_many :users, through: :game_players
@@ -9,6 +10,8 @@ class Game < ApplicationRecord
 
   belongs_to :story, optional: true
   belongs_to :current_question, class_name: "StoryQuestion", optional: true
+
+  belongs_to :lesson, optional: true
 
   after_create_commit do
     games = Game.where(phase: "lobby")
@@ -41,12 +44,17 @@ class Game < ApplicationRecord
     end
 
     if saved_change_to_attribute?(:current_step)
-      if game_type == "Story"
+      case game_type
+      when "Lesson"
+        set_lesson_game_state!
+        broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show_lesson", locals: { game: self }
+      when "Story"
         set_story_game_state!
+        broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: { game: self }
       else
         set_game_state!
+        broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: { game: self }
       end
-      broadcast_render_to "game_#{id}", partial: "games/turbo_stream/update_show", locals: { game: self }
     end
   end
 
@@ -73,6 +81,22 @@ class Game < ApplicationRecord
     )
   end
 
+  def set_lesson_game_state!
+    answers = lesson.lesson_questions[current_step - 1].lesson_answers
+    wrong_answers = LessonAnswer
+      .where.not(id: answers.pluck(:id))
+      .order(Arel.sql("RANDOM()"))
+      .limit(4)
+      .pluck(:id, :content)
+    options = (answers.pluck(:id, :content) + wrong_answers).shuffle
+
+    update(lesson_state: {
+      question: lesson.lesson_questions[current_step - 1].content,
+      answer: answers.pluck(:id),
+      options: options
+    })
+  end
+
   def all_players_ready?
     game_players.where.not(connection: "offline").where(ready: false).none?
   end
@@ -82,7 +106,11 @@ class Game < ApplicationRecord
       game_players.lock # Блокируем игроков в этой игре
       if all_players_ready?
         game_players.each do |game_player|
-          count = game_player.current_answer == answer ? 1 : 0
+          if game_type == "Lesson"
+            count = game_player.current_answer == lesson_state["answer"].map(&:to_i).sum.to_s ? 1 : 0
+          else
+            count = game_player.current_answer == answer ? 1 : 0
+          end
           game_player.update(ready: false, answers: game_player.answers + count)
         end
 

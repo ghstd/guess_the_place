@@ -18,8 +18,10 @@ Rails.application.routes.draw do
   resources :games, except: [ :new, :edit, :destroy ] do
     collection do
       get :stories
+      get :lessons
       post :create_story
       post :create_video
+      post :create_lesson
     end
 
     member do

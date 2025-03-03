@@ -2,7 +2,7 @@
 	<template>
 		<p class="chat__message">
 			<span class="chat__author" style="background-color: <%= chat_message.author_color %>;"><%= chat_message.author %></span>
-			<span><%= chat_message.message %></span>
+			<span><%= sanitize(chat_message.message) %></span>
 		</p>
 	</template>
 </turbo-stream>

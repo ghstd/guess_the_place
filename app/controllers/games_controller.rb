@@ -10,6 +10,10 @@ class GamesController < ApplicationController
     @stories = Story.all
   end
 
+  def lessons
+    @lessons = Lesson.all
+  end
+
   def create
     @game = Game.new
 
@@ -57,6 +61,40 @@ class GamesController < ApplicationController
     end
   end
 
+  def create_lesson
+    lesson = Lesson.includes(:lesson_questions).find(params[:lesson_id])
+
+    @game = Game.new
+    @game.lesson = lesson
+    @game.name = lesson.name
+    @game.game_type = "Lesson"
+    @game.steps = lesson.lesson_questions.count
+    @game.current_step = 1
+    @game.phase = "lobby"
+    @game.game_players.build(user: current_user, color: get_random_color(0))
+    @game.creator = current_user.short_email
+
+    answers = lesson.lesson_questions.first.lesson_answers
+    wrong_answers = LessonAnswer
+      .where.not(id: answers.pluck(:id))
+      .order(Arel.sql("RANDOM()"))
+      .limit(4)
+      .pluck(:id, :content)
+    options = (answers.pluck(:id, :content) + wrong_answers).shuffle
+
+    @game.lesson_state = {
+      question: lesson.lesson_questions[@game.current_step - 1].content,
+      answer: answers.pluck(:id),
+      options: options
+    }
+
+    if @game.save
+      redirect_to lobby_game_path(@game)
+    else
+      redirect_to root_path
+    end
+  end
+
   def create_video
     @game = Game.new
     @game.name = "Video"
@@ -85,13 +123,18 @@ class GamesController < ApplicationController
       return
     end
 
+    if @game.phase == "lobby"
+      redirect_to lobby_game_path(@game)
+      return
+    end
+
     if @game.game_type == "Video"
       render :show_video
       return
     end
 
-    if @game.phase == "lobby"
-      redirect_to lobby_game_path(@game)
+    if @game.game_type == "Lesson"
+      render :show_lesson
       return
     end
 
@@ -107,7 +150,12 @@ class GamesController < ApplicationController
   def player_ready
     game = Game.find(params[:id])
     game_player = game.game_players.find_by(user: current_user)
-    game_player.ready!(params[:ready], params[:answer])
+    if game.game_type == "Lesson"
+      answer = params[:answer].map(&:to_i).sum.to_s
+    else
+      answer = params[:answer]
+    end
+    game_player.ready!(params[:ready], answer)
 
     head :ok
   end
