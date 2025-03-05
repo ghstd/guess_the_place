@@ -18,7 +18,9 @@
 						id="game_content">
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-player-id="<%= @game_player.id %>">
-		<!-- <div class="game__panorama"></div> -->
+		<div class="game__image">
+			<%= image_tag "class_eval_vs_instance_eval.png" %>
+		</div>
 		<div class="game__question" id="game_question">
 			<%= @game.lesson_state["question"] %>
 		</div>
