@@ -96,47 +96,18 @@
 #   )
 # end
 
-lesson = Lesson.create!(name: "Test Lesson")
+# file_path = Rails.root.join('my_temp_files', 'lib', 'lessons', 'rails.json')
+# json_data = JSON.parse(File.read(file_path))
 
-questions = [
-  {
-    name: "Спецификация Rack",
-    answers: [
-      "это спецификация или интерфейс",
-      "задаёт протокол взаимодействия между веб-сервером и веб-приложением",
-      "должен быть объект, у которого есть метод call, принимающий один аргумент, и возвращающий массив из трех конкретных значений"
-    ]
-  },
-  {
-    name: "Rack-приложение",
-    answers: [
-      "это конкретная реализация, которая следует Rack-спецификации",
-      "Это любой объект в Ruby, который соответствует интерфейсу Rack",
-      "Более сложная структура (например, приложение на Sinatra или целое Rails-приложение)"
-    ]
-  },
-  {
-    name: "Команда rackup",
-    answers: [
-      "утилита для запуска Rack-приложений",
-      "инструмент, используемый для запуска любых Rack-приложений",
-      "Обычно запускает сервер, указанный в config.ru"
-    ]
-  },
-  {
-    name: "Middleware",
-    answers: [
-      "промежуточные компоненты в Rack-совместимых приложениях",
-      "Представляют собой объекты с методом call",
-      "Могут оборачивать другие middleware или непосредственно само приложение",
-      "Стек middleware создаётся на основе Rails.application с использованием Rack::Builder"
-    ]
-  }
-]
+# lesson = Lesson.create!(name: json_data["name"])
 
-questions.each do |question|
-  created_question = lesson.lesson_questions.create!(content: question[:name])
-  question[:answers].each do |answer|
-    created_question.lesson_answers.create!(content: answer)
-  end
-end
+# json_data["questions"].each do |question|
+#   created_question = lesson.lesson_questions.create!(
+#     content: question["content"],
+#     image: question["image"]
+#   )
+
+#   question["answers"].each do |answer|
+#     created_question.lesson_answers.create!(content: answer)
+#   end
+# end

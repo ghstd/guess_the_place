@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_03_162255) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_05_172613) do
   create_table "chat_messages", force: :cascade do |t|
     t.integer "game_id", null: false
     t.string "author"
@@ -147,7 +147,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_162255) do
   add_foreign_key "game_coordinates", "games"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "users"
-  add_foreign_key "games", "lessons"
+  add_foreign_key "games", "lessons", on_delete: :nullify
   add_foreign_key "games", "stories"
   add_foreign_key "games", "story_questions", column: "current_question_id"
   add_foreign_key "games_statistics", "users"

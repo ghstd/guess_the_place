@@ -18,8 +18,10 @@
 						id="game_content">
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-player-id="<%= @game_player.id %>">
-		<div class="game__image">
-			<%= image_tag "class_eval_vs_instance_eval.png" %>
+		<div class="game__image" id="game_image">
+			<% if @game.lesson_state["image"].present? %>
+				<%= image_tag @game.lesson_state["image"] %>
+			<% end %>
 		</div>
 		<div class="game__question" id="game_question">
 			<%= @game.lesson_state["question"] %>

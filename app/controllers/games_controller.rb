@@ -74,16 +74,18 @@ class GamesController < ApplicationController
     @game.game_players.build(user: current_user, color: get_random_color(0))
     @game.creator = current_user.short_email
 
-    answers = lesson.lesson_questions.first.lesson_answers
+    current_lesson_question = lesson.lesson_questions[@game.current_step - 1]
+    answers = current_lesson_question.lesson_answers
     wrong_answers = LessonAnswer
       .where.not(id: answers.pluck(:id))
       .order(Arel.sql("RANDOM()"))
-      .limit(4)
+      .limit(rand(3..6))
       .pluck(:id, :content)
     options = (answers.pluck(:id, :content) + wrong_answers).shuffle
 
     @game.lesson_state = {
-      question: lesson.lesson_questions[@game.current_step - 1].content,
+      question: current_lesson_question.content,
+      image: current_lesson_question.image,
       answer: answers.pluck(:id),
       options: options
     }

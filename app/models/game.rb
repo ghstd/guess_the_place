@@ -82,16 +82,18 @@ class Game < ApplicationRecord
   end
 
   def set_lesson_game_state!
-    answers = lesson.lesson_questions[current_step - 1].lesson_answers
+    current_lesson_question = lesson.lesson_questions[current_step - 1]
+    answers = current_lesson_question.lesson_answers
     wrong_answers = LessonAnswer
       .where.not(id: answers.pluck(:id))
       .order(Arel.sql("RANDOM()"))
-      .limit(4)
+      .limit(rand(3..6))
       .pluck(:id, :content)
     options = (answers.pluck(:id, :content) + wrong_answers).shuffle
 
     update(lesson_state: {
-      question: lesson.lesson_questions[current_step - 1].content,
+      question: current_lesson_question.content,
+      image: current_lesson_question.image,
       answer: answers.pluck(:id),
       options: options
     })

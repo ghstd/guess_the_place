@@ -6,6 +6,17 @@
 	</template>
 </turbo-stream>
 
+<turbo-stream action="replace" target="game_image">
+	<template>
+		<div class="game__image" id="game_image">
+			<% if game.lesson_state["image"].present? %>
+				<%= image_tag game.lesson_state["image"] %>
+			<% else %>
+			<% end %>
+		</div>
+	</template>
+</turbo-stream>
+
 <turbo-stream action="update" target="game_options">
   <template>
 		<% game.lesson_state["options"].each do |option| %>
