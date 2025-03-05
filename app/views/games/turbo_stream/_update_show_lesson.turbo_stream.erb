@@ -1,0 +1,23 @@
+<turbo-stream action="replace" target="game_question">
+	<template>
+		<div class="game__question" id="game_question">
+			<%= game.lesson_state["question"] %>
+		</div>
+	</template>
+</turbo-stream>
+
+<turbo-stream action="update" target="game_options">
+  <template>
+		<% game.lesson_state["options"].each do |option| %>
+			<li class="game__option" data-option-id="<%= option[0] %>">
+				<%= option[1] %>
+			</li>
+		<% end %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="game_current_step">
+  <template>
+		<p id="game_current_step">вопрос <span><%= game.current_step %></span> из <span><%= game.steps %></span></p>
+  </template>
+</turbo-stream>

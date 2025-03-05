@@ -1,0 +1,22 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="games">
+	<section class="games__content">
+		<ul class="games__list" id="games_list">
+			<% @lessons.each do |lesson| %>
+				<li class="games__info_card"%>
+					<%= link_to lesson.name, create_lesson_games_path(lesson_id: lesson.id), data: {turbo_method: :post},  class: "button_regular" %>
+				</li>
+			<% end %>
+		</ul>
+	</section>
+</main>
+
+<aside class="right_sidebar">
+	<%= render partial: "shared/header" %>
+</aside>
