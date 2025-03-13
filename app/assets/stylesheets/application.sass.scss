@@ -9,9 +9,9 @@
 @use './shared/right_sidebar.scss';
 @use './shared/youtube_player.scss';
 @use './shared/chat.scss';
-@use './pages/pages/home';
-@use './pages/games/index';
-@use './pages/games/lobby';
-@use './pages/games/show';
-@use './pages/games/partials/game_info';
-@use './pages/devise/registrations/new';
+@use './resources/pages/home';
+@use './resources/games/index';
+@use './resources/games/lobby';
+@use './resources/games/show';
+@use './resources/games/partials/game_info';
+@use './resources/devise/registrations/new';
