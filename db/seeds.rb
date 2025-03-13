@@ -96,18 +96,20 @@
 #   )
 # end
 
-# file_path = Rails.root.join('my_temp_files', 'lib', 'lessons', 'rails.json')
-# json_data = JSON.parse(File.read(file_path))
+file_path = Rails.root.join('my_temp_files', 'lib', 'lessons', 'ruby_2.json')
+json_data = JSON.parse(File.read(file_path))
 
 # lesson = Lesson.create!(name: json_data["name"])
+lesson = Lesson.find_by(name: "Ruby")
 
 # json_data["questions"].each do |question|
-#   created_question = lesson.lesson_questions.create!(
-#     content: question["content"],
-#     image: question["image"]
-#   )
+json_data.each do |question|
+  created_question = lesson.lesson_questions.create!(
+    content: question["content"],
+    image: question["image"]
+  )
 
-#   question["answers"].each do |answer|
-#     created_question.lesson_answers.create!(content: answer)
-#   end
-# end
+  question["answers"].each do |answer|
+    created_question.lesson_answers.create!(content: answer)
+  end
+end

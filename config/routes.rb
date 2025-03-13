@@ -15,10 +15,11 @@ Rails.application.routes.draw do
 
   get "/rating" => "pages#rating"
 
-  resources :games, except: [ :new, :edit, :destroy ] do
+  resources :games, only: [ :index, :show ] do
     collection do
       get :stories
       get :lessons
+      post :create_random
       post :create_story
       post :create_video
       post :create_lesson
