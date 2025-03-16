@@ -5,22 +5,40 @@
 	<%= render partial: "shared/footer" %>
 </aside>
 
-<main class="home">
+<main class="home" style="color: white;">
 	<h1>Рейтинг</h1>
-	<% @users.each do |user| %>
-		<h2><%= user.short_email %></h2>
-		<% user.games_statistics.each do |game| %>
-			<p>name: <%= game.name %></p>
-			<p>game_type: <%= game.game_type %></p>
-			<p>questions: <%= game.questions %></p>
-			<p>answers: <%= game.answers %></p>
-			<hr>
-		<% end %>
+
+
+<div>
+<p><%= current_user.short_email %></p>
+<hr>
+
+<div>
+	<% @games_1.each do |game| %>
+		<p>id: <%= game[0] %></p>
+		<p>accuracy: <%= game[1] %></p>
+		<p>game_count: <%= game[2] %></p>
+		<p>rating: <%= game[3] %></p>
 		<br>
 	<% end %>
+</div>
+<hr>
+<div>
+	<% @games_2.each do |game| %>
+		<p>id: <%= game.user_id %></p>
+		<p>accuracy: <%= game.accuracy %></p>
+		<p>game_count: <%= game.game_count %></p>
+		<p>rating: <%= game.rating %></p>
+		<br>
+	<% end %>
+</div>
+</div>
+
 </main>
 
+<%# <!-- %>
 <aside class="right_sidebar">
 	<%= render partial: "shared/header" %>
 </aside>
+<%# --> %>
 
