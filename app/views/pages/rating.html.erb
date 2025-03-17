@@ -8,37 +8,30 @@
 <main class="home" style="color: white;">
 	<h1>Рейтинг</h1>
 
-
-<div>
-<p><%= current_user.short_email %></p>
-<hr>
-
-<div>
-	<% @games_1.each do |game| %>
-		<p>id: <%= game[0] %></p>
-		<p>accuracy: <%= game[1] %></p>
-		<p>game_count: <%= game[2] %></p>
-		<p>rating: <%= game[3] %></p>
-		<br>
-	<% end %>
-</div>
-<hr>
-<div>
-	<% @games_2.each do |game| %>
-		<p>id: <%= game.user_id %></p>
-		<p>accuracy: <%= game.accuracy %></p>
-		<p>game_count: <%= game.game_count %></p>
-		<p>rating: <%= game.rating %></p>
-		<br>
-	<% end %>
-</div>
-</div>
+	<table style="text-align: center;">
+		<thead>
+			<tr style="border: 1px solid #fff;">
+				<th>Игрок</th>
+				<th>Процент правильных ответов</th>
+				<th>Всего сыграно игр</th>
+				<th>Рейтинг</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @games.each do |game| %>
+				<tr>
+					<td><%= game.user.short_email %></td>
+					<td><%= game.accuracy %>%</td>
+					<td><%= game.game_count %></td>
+					<td><%= game.rating %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
 
 </main>
 
-<%# <!-- %>
 <aside class="right_sidebar">
 	<%= render partial: "shared/header" %>
 </aside>
-<%# --> %>
 

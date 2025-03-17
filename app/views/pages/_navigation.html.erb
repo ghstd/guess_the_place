@@ -1,7 +1,6 @@
-<ul class="navigation__list" data-controller="navigation">
+<ul class="navigation__list" data-controller="navigation-nested-menu">
 	<li class="navigation__close">&times;</li>
 	<li><%= link_to "Главная", root_path, class: "navigation__link" %></li>
-	<li><%= link_to "Рейтинг", rating_path, class: "navigation__link" %></li>
 	<li class="navigation__nested_menu">
 		<span class="navigation__link">Совместная</span>
 		<div>
@@ -12,4 +11,9 @@
 		</div>
 	</li>
 	<li><%= link_to "Видеопросмотр", create_video_games_path, class: "navigation__link", data: {turbo_method: :post} %></li>
+	<li><%= link_to "Рейтинг", rating_path, class: "navigation__link" %></li>
+	<li><%= link_to "Редактор", editor_path, class: "navigation__link" %></li>
 </ul>
+
+
+

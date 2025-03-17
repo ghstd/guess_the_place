@@ -4,18 +4,26 @@
 
 import { application } from "./application"
 
-import NavigationNestedMenuController from "./navigation_nested_menu_controller"
-import PanoramaController from "./panorama_controller"
-import LobbyController from "./lobby_controller"
-import GameObserverController from "./game_observer_controller"
-import YoutubePlayerController from "./youtube_player_controller"
 import ChatController from "./chat_controller"
-import LessonController from "./lesson_controller"
-
-application.register("navigation", NavigationNestedMenuController)
-application.register("panorama", PanoramaController)
-application.register("lobby", LobbyController)
-application.register("game_observer", GameObserverController)
-application.register("youtube_player", YoutubePlayerController)
 application.register("chat", ChatController)
+
+import EditorController from "./editor_controller"
+application.register("editor", EditorController)
+
+import GameObserverController from "./game_observer_controller"
+application.register("game-observer", GameObserverController)
+
+import LessonController from "./lesson_controller"
 application.register("lesson", LessonController)
+
+import LobbyController from "./lobby_controller"
+application.register("lobby", LobbyController)
+
+import NavigationNestedMenuController from "./navigation_nested_menu_controller"
+application.register("navigation-nested-menu", NavigationNestedMenuController)
+
+import PanoramaController from "./panorama_controller"
+application.register("panorama", PanoramaController)
+
+import YoutubePlayerController from "./youtube_player_controller"
+application.register("youtube-player", YoutubePlayerController)

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get "/rating" => "pages#rating"
+  get "/editor" => "pages#editor"
+  post "/editor_create" => "pages#editor_create"
 
   resources :games, only: [ :index, :show ] do
     collection do
