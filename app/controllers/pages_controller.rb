@@ -14,7 +14,17 @@ class PagesController < ApplicationController
     .order(Arel.sql("rating DESC"))
   end
 
-  def editor
+  def editor_new_story
+  end
+
+  def editor_new_lesson
+  end
+
+  def editor_create_story
+    pp JSON.parse(params["data"].to_json)
+  end
+
+  def editor_create_lesson
   end
 
   def editor_create
