@@ -21,14 +21,14 @@
 		<div data-editor-target="storyFields">
 			<label>Название сюжета:</label>
 			<input type="text" name="name">
-			<label>Координаты:</label>
+			<label>Координаты (в формате: 48.447679,35.069119):</label>
 			<input type="text" name="coordinates">
 			<label>Вопрос:</label>
 			<input type="text" name="question">
-			<label>Ответ:</label>
+			<label>Правильный ответ:</label>
 			<input type="text" name="answer">
 			<div>
-				<h3>Список ложных вариантов ответа (может быть несколько):</h3>
+				<h3>Список всех вариантов ответа (обязательно включая правильный):</h3>
 				<input type="text" name="option">
 				<button class="editor__plus_btn">+</button>
 			</div>
@@ -42,7 +42,7 @@
 			<label>Вопрос:</label>
 			<input type="text" name="question">
 			<div>
-				<h3>Список ответов (может быть несколько):</h3>
+				<h3>Список только правильных ответов (может быть несколько):</h3>
 				<input type="text" name="answer">
 				<button class="editor__plus_btn">+</button>
 			</div>
@@ -55,7 +55,6 @@
 
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-</aside>
+<%= render partial: "shared/header" %>
+
 

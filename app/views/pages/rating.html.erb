@@ -5,33 +5,35 @@
 	<%= render partial: "shared/footer" %>
 </aside>
 
-<main class="home" style="color: white;">
-	<h1>Рейтинг</h1>
+<main class="rating" style="color: white;">
+	<h1 class="rating__title">Рейтинг</h1>
 
-	<table style="text-align: center;">
-		<thead>
-			<tr style="border: 1px solid #fff;">
-				<th>Игрок</th>
-				<th>Процент правильных ответов</th>
-				<th>Всего сыграно игр</th>
-				<th>Рейтинг</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @games.each do |game| %>
+	<div class="rating__content">
+		<table>
+			<thead>
 				<tr>
-					<td><%= game.user.short_email %></td>
-					<td><%= game.accuracy %>%</td>
-					<td><%= game.game_count %></td>
-					<td><%= game.rating %></td>
+					<th>Игрок</th>
+					<th>Процент правильных ответов</th>
+					<th>Всего сыграно игр</th>
+					<th>Рейтинг</th>
 				</tr>
-			<% end %>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				<% @games.each do |game| %>
+					<tr>
+						<td><%= game.user.short_email %></td>
+						<td><%= game.accuracy %>%</td>
+						<td><%= game.game_count %></td>
+						<td><%= game.rating %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+
+
 
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-</aside>
+<%= render partial: "shared/header" %>
 
