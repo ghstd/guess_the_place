@@ -1,8 +1,10 @@
 .header {
 	padding: 0.5rem;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
+	text-align: end;
+
+	&>span {
+		display: inline-block;
+	}
 
 	.avatar {
 		background-color: var(--light);

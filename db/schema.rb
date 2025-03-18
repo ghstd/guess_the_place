@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_23_160319) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_05_172613) do
   create_table "chat_messages", force: :cascade do |t|
     t.integer "game_id", null: false
     t.string "author"
@@ -58,7 +58,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_23_160319) do
     t.string "name"
     t.integer "story_id"
     t.integer "current_question_id"
+    t.integer "lesson_id"
+    t.text "lesson_state"
     t.index ["current_question_id"], name: "index_games_on_current_question_id"
+    t.index ["lesson_id"], name: "index_games_on_lesson_id"
     t.index ["story_id"], name: "index_games_on_story_id"
   end
 
@@ -71,6 +74,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_23_160319) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_games_statistics_on_user_id"
+  end
+
+  create_table "lesson_answers", force: :cascade do |t|
+    t.integer "lesson_question_id", null: false
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_question_id"], name: "index_lesson_answers_on_lesson_question_id"
+  end
+
+  create_table "lesson_questions", force: :cascade do |t|
+    t.integer "lesson_id", null: false
+    t.string "content"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_lesson_questions_on_lesson_id"
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "random_coordinates", force: :cascade do |t|
@@ -121,8 +147,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_23_160319) do
   add_foreign_key "game_coordinates", "games"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "users"
+  add_foreign_key "games", "lessons", on_delete: :nullify
   add_foreign_key "games", "stories"
   add_foreign_key "games", "story_questions", column: "current_question_id"
   add_foreign_key "games_statistics", "users"
+  add_foreign_key "lesson_answers", "lesson_questions"
+  add_foreign_key "lesson_questions", "lessons"
   add_foreign_key "story_questions", "stories"
 end

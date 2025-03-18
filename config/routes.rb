@@ -14,12 +14,17 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get "/rating" => "pages#rating"
+  get "/editor" => "pages#editor"
+  post "/editor_create" => "pages#editor_create"
 
-  resources :games, except: [ :new, :edit, :destroy ] do
+  resources :games, only: [ :index, :show ] do
     collection do
       get :stories
+      get :lessons
+      post :create_random
       post :create_story
       post :create_video
+      post :create_lesson
     end
 
     member do

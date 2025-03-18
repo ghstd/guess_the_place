@@ -39,15 +39,15 @@
 	}
 
 	&__image {
-		min-height: 50%;
+		max-height: 50%;
 		display: flex;
 		justify-content: center;
 	}
 
 	&__question {
 		align-self: center;
-		padding: 0 0.5rem;
-		font-size: 1.4rem;
+		padding: 0.5rem;
+		font-size: 1.6rem;
 		font-weight: 600;
 		text-align: center;
 	}

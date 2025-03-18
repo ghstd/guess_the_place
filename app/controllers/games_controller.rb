@@ -2,6 +2,9 @@ require "net/http"
 
 class GamesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_game, only: [ :show, :update_game_phase ]
+  before_action :authorize_player, only: :show
+  before_action :redirect_if_lobby, only: :show
   def index
     @games = Game.includes(:users).where(phase: "lobby")
   end
@@ -10,150 +13,96 @@ class GamesController < ApplicationController
     @stories = Story.all
   end
 
-  def create
-    @game = Game.new
+  def lessons
+    @lessons = Lesson.all
+  end
 
-    @game.name = "Random"
-    @game.game_type = "Random"
-    @game.steps = 10
-    @game.current_step = 1
-    @game.phase = "lobby"
-    @game.game_players.build(user: current_user, color: get_random_color(0))
-    @game.creator = current_user.short_email
-
-    coords = RandomCoordinate.order(Arel.sql("RANDOM()")).limit(@game.steps).pluck("lat", "long")
-
-    if @game.save
-      coords.each do |coord|
-        @game.game_coordinates.create(lat: coord[0], long: coord[1])
-      end
-      redirect_to lobby_game_path(@game)
-    else
-      redirect_to root_path
-    end
+  def create_random
+    @game = GameCreator.call({}, current_user)
+    handle_game_creation
   end
 
   def create_story
-    story = Story.find(params[:story_id])
+    @game = GameCreator.call({ story_id: params[:story_id] }, current_user)
+    handle_game_creation
+  end
 
-    @game = Game.new
-    @game.story = story
-    @game.name = story.name
-    @game.game_type = "Story"
-    @game.steps = story.story_questions.count
-    @game.current_step = 1
-    @game.phase = "lobby"
-    @game.game_players.build(user: current_user, color: get_random_color(0))
-    @game.creator = current_user.short_email
-
-    @game.current_question = story.story_questions.first
-    @game.answer = @game.current_question.answer
-    @game.current_coordinates = @game.current_question.coordinates
-
-    if @game.save
-      redirect_to lobby_game_path(@game)
-    else
-      redirect_to root_path
-    end
+  def create_lesson
+    @game = GameCreator.call({ lesson_id: params[:lesson_id] }, current_user)
+    handle_game_creation
   end
 
   def create_video
-    @game = Game.new
-    @game.name = "Video"
-    @game.game_type = "Video"
-    @game.phase = "lobby"
-    @game.game_players.build(user: current_user, color: get_random_color(0))
-    @game.creator = current_user.short_email
+    @game = GameCreator.call({ name: "Video", game_type: "Video" }, current_user)
+    handle_game_creation
+  end
 
-    if @game.save
-      redirect_to lobby_game_path(@game)
-    else
-      redirect_to root_path
+  def lobby
+    @game = Game.includes(:users, :chat_messages).find_by(id: params[:id])
+    unless @game && @game.phase == "lobby"
+      return redirect_to root_path
     end
+
+    @creator = @game.creator == current_user.short_email
   end
 
   def show
-    @game = Game.find_by(id: params[:id])
-    if @game.nil?
-      redirect_to root_path
-      return
-    end
-
-    @game_player = @game.game_players.find_by(user: current_user)
-    if !@game_player
-      redirect_to root_path
-      return
-    end
-
-    if @game.game_type == "Video"
+    case @game.game_type
+    when "Video"
       render :show_video
-      return
-    end
-
-    if @game.phase == "lobby"
-      redirect_to lobby_game_path(@game)
-      return
-    end
-
-    if @game.game_type == "Random"
-      @game.with_lock do
-        unless @game.game_state_exists?
-          @game.set_game_state!
-        end
-      end
+    when "Lesson"
+      render :show_lesson
+    when "Random"
+      @game.with_lock { RandomGameStateUpdater.call(@game).set_state_if_not_exist! }
     end
   end
 
   def player_ready
     game = Game.find(params[:id])
     game_player = game.game_players.find_by(user: current_user)
-    game_player.ready!(params[:ready], params[:answer])
-
+    if game.game_type == "Lesson"
+      answer = params[:answer].map(&:to_i).sum.to_s
+    else
+      answer = params[:answer]
+    end
+    game_player.ready!(params[:ready], answer)
     head :ok
   end
 
   def add_player
     @game = Game.includes(:game_players).find(params[:id])
     @game.game_players.find_or_create_by(user: current_user) do |player|
-      index = @game.game_players.size
-      player.color = get_random_color(index)
+      player.color = Utils::ColorGenerator.get_color(@game.game_players.size)
     end
 
     redirect_to lobby_game_path(@game)
   end
 
   def update_game_phase
-    @game = Game.find(params[:id])
-    if @game.update(phase: "game")
-      head :ok
+    @game.update(phase: "game") ? head(:ok) : redirect_to(root_path)
+  end
+
+  private
+
+  def handle_game_creation
+    if @game
+      redirect_to lobby_game_path(@game)
     else
       redirect_to root_path
     end
   end
 
-  def lobby
-    @game = Game.includes(:users, :chat_messages).find(params[:id])
-
-    if @game.phase != "lobby"
-      redirect_to root_path
-      return
-    end
-
-    @creator = @game.creator == current_user.short_email
+  def set_game
+    @game = Game.find_by(id: params[:id])
+    redirect_to root_path unless @game
   end
 
-  private
+  def authorize_player
+    @game_player = @game.game_players.find_by(user: current_user)
+    redirect_to root_path unless @game_player
+  end
 
-  def get_random_color(index)
-    colors = [
-      "#1570BF",
-      "#2B7F3A",
-      "#ABD948",
-      "#F2B90F",
-      "#D97904",
-      "#F23827",
-      "#0D8D88"
-    ]
-    colors[index % colors.count]
+  def redirect_if_lobby
+    redirect_to lobby_game_path(@game) if @game.phase == "lobby"
   end
 end

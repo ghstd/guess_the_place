@@ -1,3 +1,7 @@
 <header class="header">
-	<span class="avatar">Guest</span>
+	<span>
+		<span class="avatar">
+			<%= truncate(current_user.short_email, length: 5, omission: '..') %>
+		</span>
+	</span>
 </header>

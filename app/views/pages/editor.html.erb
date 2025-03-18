@@ -1,0 +1,60 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="editor" style="color: white;">
+	<h1 class="editor__title">Редактор</h1>
+
+	<div class="editor__content" 
+				data-controller="editor" 
+				data-server-url="<%= ENV["SERVER_URL"] %>"
+				data-user-id="<%= current_user.id %>">
+		<label>Выберите режим:</label>
+		<select data-action="change->editor#toggleFields" data-editor-target="modeSelect">
+			<option value="story">Создание сюжета</option>
+			<option value="lesson">Создание теста</option>
+		</select>
+
+		<div data-editor-target="storyFields">
+			<label>Название сюжета:</label>
+			<input type="text" name="name">
+			<label>Координаты (в формате: 48.447679,35.069119):</label>
+			<input type="text" name="coordinates">
+			<label>Вопрос:</label>
+			<input type="text" name="question">
+			<label>Правильный ответ:</label>
+			<input type="text" name="answer">
+			<div>
+				<h3>Список всех вариантов ответа (обязательно включая правильный):</h3>
+				<input type="text" name="option">
+				<button class="editor__plus_btn">+</button>
+			</div>
+		</div>
+
+		<div data-editor-target="lessonFields">
+			<label>Название теста:</label>
+			<input type="text" name="name">
+			<label>Ссылка на изображение:</label>
+			<input type="text" name="image">
+			<label>Вопрос:</label>
+			<input type="text" name="question">
+			<div>
+				<h3>Список только правильных ответов (может быть несколько):</h3>
+				<input type="text" name="answer">
+				<button class="editor__plus_btn">+</button>
+			</div>
+		</div>
+
+		<div class="editor__save">
+			<button>Сохранить</button>
+		</div>
+	</div>
+
+</main>
+
+<%= render partial: "shared/header" %>
+
+
