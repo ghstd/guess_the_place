@@ -13,6 +13,9 @@ application.register("editor-lesson", EditorLessonController)
 import EditorStoryController from "./editor_story_controller"
 application.register("editor-story", EditorStoryController)
 
+import FlashMessagesController from "./flash_messages_controller"
+application.register("flash-messages", FlashMessagesController)
+
 import GameObserverController from "./game_observer_controller"
 application.register("game-observer", GameObserverController)
 

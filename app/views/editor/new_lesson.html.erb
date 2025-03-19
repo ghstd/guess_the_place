@@ -21,8 +21,8 @@
 				<li>
 					<h3>Вопрос 1</h3>
 
-					<%= content_tag :label, "Ссылка на изображение (необязательно):" %>
-					<%= form.text_field "data[questions][][image]", placeholder: "Изображение" %>
+					<%= content_tag :label, "Ссылка на изображение (только https):" %>
+					<%= form.text_field "data[questions][][image]", placeholder: "Изображение (необязательно)" %>
 
 					<%= content_tag :label, "Вопрос:" %>
 					<%= form.text_field "data[questions][][question]", placeholder: "Вопрос" %>

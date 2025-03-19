@@ -9,6 +9,9 @@ export default class extends Controller {
 
 		const addQuestionBtn = this.element.querySelector('.editor__controls button[type="button"]')
 		addQuestionBtn.onclick = this.addQuestionHandler
+
+		this.formSubmitHandler = this.formSubmitHandler.bind(this)
+		document.addEventListener("turbo:submit-end", this.formSubmitHandler)
 	}
 
 	addQuestionHandler = () => {
@@ -45,8 +48,8 @@ export default class extends Controller {
 			<span>&times;</span>
 			<h3>Вопрос 1</h3>
 
-			<label>Ссылка на изображение (необязательно):</label>
-			<input placeholder="Изображение" type="text" name="data[questions][][image]" id="data[questions][][image]">
+			<label>Ссылка на изображение (только https):</label>
+			<input placeholder="Изображение (необязательно)" type="text" name="data[questions][][image]" id="data[questions][][image]">
 
 			<label>Вопрос:</label>
 			<input placeholder="Вопрос" type="text" name="data[questions][][question]" id="data[questions][][question]">
@@ -57,5 +60,18 @@ export default class extends Controller {
 				<button type="button">Добавить вариант ответа</button>
 			</div>
 		`.trim()
+	}
+
+	formSubmitHandler(event) {
+		const { success } = event.detail
+		if (success) {
+			console.log("Форма отправлена успешно", success)
+		} else {
+			console.log("Ошибка при отправке формы", success)
+		}
+	}
+
+	disconnect() {
+		document.removeEventListener("turbo:submit-end", this.formSubmitHandler)
 	}
 }

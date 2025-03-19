@@ -8,32 +8,49 @@ class EditorController < ApplicationController
   end
 
   def create_story
-    pp story_params
+    permitted_params = story_params
+
+    ActiveRecord::Base.transaction do
+      story = Story.create!(name: permitted_params["name"], author: current_user.id)
+
+      permitted_params["questions"].each do |question|
+        story.story_questions.create!(
+          coordinates: question["coordinates"],
+          question: question["question"],
+          answer: question["answer"],
+          options: question["options"]
+        )
+      end
+    end
+
+    render json: { message: "Story created successfully" }, status: :created
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def create_lesson
     permitted_params = lesson_params
-    p permitted_params
 
-    # ActiveRecord::Base.transaction do
-    #   lesson = Lesson.create!(name: permitted_params["name"])
+    ActiveRecord::Base.transaction do
+      lesson = Lesson.create!(name: permitted_params["name"], author: current_user.id)
 
-    #   permitted_params["questions"].each do |question|
-    #     created_question = lesson.lesson_questions.create!(
-    #       content: question["question"],
-    #       image: question["image"]
-    #     )
+      permitted_params["questions"].each do |question|
+        created_question = lesson.lesson_questions.create!(
+          content: question["question"],
+          image: question["image"]
+        )
 
-    #     question["answers"].each do |answer|
-    #       created_question.lesson_answers.create!(content: answer)
-    #     end
-    #   end
-    # end
+        question["answers"].each do |answer|
+          created_question.lesson_answers.create!(content: answer)
+        end
+      end
+    end
 
-    #   render json: { message: "Lesson created successfully" }, status: :created
-    # rescue ActiveRecord::RecordInvalid => e
-    #   # Обработка ошибки
-    #   render json: { error: e.message }, status: :unprocessable_entity
+      flash[:notice] = "Урок успешно создан!"
+      render json: { message: "Lesson created successfully" }, status: :created
+  rescue ActiveRecord::RecordInvalid => e
+      flash[:alert] = "Произошла ошибка при создании урока."
+      render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private

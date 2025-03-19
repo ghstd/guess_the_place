@@ -1,0 +1,62 @@
+#flash_container {
+	position: fixed;
+	z-index: 20;
+	top: 0;
+	right: 0;
+	margin: 0 2px;
+}
+
+.flash_messages {
+	position: relative;
+	background-color: var(--dark_2);
+	color: var(--light);
+	font-size: 1.2rem;
+	text-align: start;
+	display: flex;
+	justify-content: space-between;
+	border-radius: 5px;
+	padding: 0 0 0.1rem 0;
+	margin: 0 0 0.1rem 0;
+	--time-line-width: 0;
+
+	&::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: var(--time-line-width);
+		height: 2px;
+		background-color: var(--dark);
+		transition: width 4s linear;
+	}
+
+	li {
+		margin: 0.2rem;
+		padding: 0.2rem 0.4rem;
+		border-radius: 5px;
+	}
+
+	&__notice {
+		background-color: var(--green);
+	}
+
+	&__alert {
+		background-color: var(--orange);
+	}
+
+	button {
+		align-self: flex-start;
+		color: var(--light);
+		background-color: var(--dark);
+		border: 1px solid var(--dark);
+		box-shadow: 2px 2px 0px 0px var(--dark);
+		padding: 0rem 0.8rem;
+		margin: 0.2rem;
+		cursor: pointer;
+	}
+
+	button:active {
+		box-shadow: 1px 1px 0px 0px var(--blue);
+		transform: translateY(2px);
+	}
+}

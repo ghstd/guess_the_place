@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_05_172613) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_19_193047) do
   create_table "chat_messages", force: :cascade do |t|
     t.integer "game_id", null: false
     t.string "author"
@@ -97,6 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_172613) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "author"
   end
 
   create_table "random_coordinates", force: :cascade do |t|
@@ -111,6 +112,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_172613) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "visibility", default: "visible"
+    t.integer "author"
   end
 
   create_table "story_questions", force: :cascade do |t|
