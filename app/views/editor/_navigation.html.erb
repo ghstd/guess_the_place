@@ -1,0 +1,33 @@
+<ul class="navigation__list" data-controller="navigation-nested-menu">
+	<li class="navigation__close">&times;</li>
+	<li><%= link_to "Главная", root_path, class: "navigation__link" %></li>
+	<li class="navigation__nested_menu">
+		<span class="navigation__link">Одиночная</span>
+		<div>
+			<%= link_to "Сюжет", stories_games_path, class: "navigation__link" %>
+			<%= link_to "Случайная", create_random_games_path, class: "navigation__link", data: {turbo_method: :post} %>
+			<%= link_to "Тесты", lessons_games_path, class: "navigation__link" %>
+		</div>
+	</li>
+	<li class="navigation__nested_menu">
+		<span class="navigation__link">Совместная</span>
+		<div>
+			<%= link_to "Сюжет", stories_games_path, class: "navigation__link" %>
+			<%= link_to "Случайная", create_random_games_path, class: "navigation__link", data: {turbo_method: :post} %>
+			<%= link_to "Ожидающие", games_path, class: "navigation__link" %>
+			<%= link_to "Тесты", lessons_games_path, class: "navigation__link" %>
+		</div>
+	</li>
+	<li><%= link_to "Видеопросмотр", create_video_games_path, class: "navigation__link", data: {turbo_method: :post} %></li>
+	<li><%= link_to "Рейтинг", rating_path, class: "navigation__link" %></li>
+	<li class="navigation__nested_menu">
+		<span class="navigation__link">Редактор</span>
+		<div>
+			<%= link_to "Создание сюжета", editor_new_story_path, class: "navigation__link" %>
+			<%= link_to "Создание квиза", editor_new_lesson_path, class: "navigation__link" %>
+		</div>
+	</li>
+</ul>
+
+
+

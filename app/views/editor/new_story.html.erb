@@ -1,0 +1,56 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="editor">
+	<h1 class="editor__title">Создание сюжета</h1>
+
+	<div class="editor__content" data-controller="editor-story">
+		<%= form_with url: editor_create_story_path, class: "editor__form" do |form| %>
+			<%= form.hidden_field :user_id, value: current_user.id %>
+
+			<div class="editor__form_title">
+				<%= content_tag :label, "Название:" %>
+				<%= form.text_field "data[name]", placeholder: "Название сюжета" %>
+			</div>
+
+			<ul class="editor__list">
+				<li>
+					<h3>Вопрос 1</h3>
+
+					<%= content_tag :label, "Координаты:" %>
+					<div>
+						<%= form.text_field "data[questions][][coordinates][]", placeholder: "Lat" %>
+						<%= form.text_field "data[questions][][coordinates][]", placeholder: "Long" %>
+					</div>
+
+					<%= content_tag :label, "Вопрос:" %>
+					<%= form.text_field "data[questions][][question]", placeholder: "Вопрос" %>
+
+					<%= content_tag :label, "Ответ:" %>
+					<%= form.text_field "data[questions][][answer]", placeholder: "Ответ" %>
+
+					<%= content_tag :label, "Список всех вариантов ответа (обязательно включая правильный):" %>
+					<div class="editor__options">
+						<%= form.text_field "data[questions][][options][]", placeholder: "Вариант ответа" %>
+						<button type="button">Добавить вариант ответа</button>
+					</div>
+				</li>
+			</ul>
+
+			<div class="editor__controls">
+				<button type="button">Добавить вопрос</button>
+				<%= form.submit "Сохранить", data: { turbo_confirm: "Сохранить?" } %>
+			</div>
+		<% end %>
+
+	</div>
+
+</main>
+
+<%= render partial: "shared/header" %>
+
+

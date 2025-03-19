@@ -4,6 +4,7 @@
 	flex-direction: column;
 	border-left: 1px solid var(--light);
 	border-right: 1px solid var(--light);
+	color: var(--light);
 	overflow-y: auto;
 
 	h3 {
@@ -29,7 +30,7 @@
 
 	input:focus,
 	select:focus {
-		outline: 2px solid #00bcd4;
+		outline: 2px solid var(--blue);
 	}
 
 	select {
@@ -47,7 +48,7 @@
 	}
 
 	button:hover {
-		background: #00bcd4;
+		background: var(--blue);
 	}
 
 	&__title {
@@ -91,15 +92,32 @@
 		margin: 0 0 1rem 0;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start;
 		flex-wrap: wrap;
 		gap: 1rem;
 
 		li {
-			max-width: 600px;
+			position: relative;
+			max-width: 400px;
 			border-radius: 10px;
 			background: var(--dark_2);
 			padding: 1rem;
+
+			span {
+				position: absolute;
+				top: 0;
+				right: 0;
+				background: var(--green);
+				color: var(--light);
+				padding: 0.5rem;
+				border-radius: 0 10px 0 10px;
+				transition: all 0.2s ease-in-out;
+				cursor: pointer;
+			}
+
+			span:hover {
+				background: var(--blue);
+			}
 		}
 	}
 
@@ -125,7 +143,7 @@
 		}
 
 		input:hover {
-			background: #00bcd4;
+			background: var(--blue);
 		}
 	}
 }

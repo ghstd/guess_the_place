@@ -99,8 +99,8 @@
 file_path = Rails.root.join('my_temp_files', 'lib', 'lessons', 'ruby_2.json')
 json_data = JSON.parse(File.read(file_path))
 
-# lesson = Lesson.create!(name: json_data["name"])
-lesson = Lesson.find_by(name: "Ruby")
+lesson = Lesson.create!(name: json_data["name"])
+# lesson = Lesson.find_by(name: "Ruby")
 
 # json_data["questions"].each do |question|
 json_data.each do |question|

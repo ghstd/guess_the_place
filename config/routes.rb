@@ -14,10 +14,13 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get "/rating" => "pages#rating"
-  get "/editor_new_story" => "pages#editor_new_story"
-  get "/editor_new_lesson" => "pages#editor_new_lesson"
-  post "/editor_create_story" => "pages#editor_create_story"
-  post "/editor_create_lesson" => "pages#editor_create_lesson"
+
+  scope :editor, as: :editor do
+    get "/new_story" => "editor#new_story"
+    get "/new_lesson" => "editor#new_lesson"
+    post "/create_story" => "editor#create_story"
+    post "/create_lesson" => "editor#create_lesson"
+  end
 
   resources :games, only: [ :index, :show ] do
     collection do

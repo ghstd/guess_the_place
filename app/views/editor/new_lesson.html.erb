@@ -1,0 +1,50 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="editor">
+	<h1 class="editor__title">Создание квиза</h1>
+
+	<div class="editor__content" data-controller="editor-lesson">
+		<%= form_with url: editor_create_lesson_path, class: "editor__form" do |form| %>
+			<%= form.hidden_field :user_id, value: current_user.id %>
+
+			<div class="editor__form_title">
+				<%= content_tag :label, "Название:" %>
+				<%= form.text_field "data[name]", placeholder: "Название квиза" %>
+			</div>
+
+			<ul class="editor__list">
+				<li>
+					<h3>Вопрос 1</h3>
+
+					<%= content_tag :label, "Ссылка на изображение (необязательно):" %>
+					<%= form.text_field "data[questions][][image]", placeholder: "Изображение" %>
+
+					<%= content_tag :label, "Вопрос:" %>
+					<%= form.text_field "data[questions][][question]", placeholder: "Вопрос" %>
+
+					<%= content_tag :label, "Список только правильных ответов (может быть несколько):" %>
+					<div class="editor__options">
+						<%= form.text_field "data[questions][][answers][]", placeholder: "Вариант ответа" %>
+						<button type="button">Добавить вариант ответа</button>
+					</div>
+				</li>
+			</ul>
+
+			<div class="editor__controls">
+				<button type="button">Добавить вопрос</button>
+				<%= form.submit "Сохранить", data: { turbo_confirm: "Сохранить?" } %>
+			</div>
+		<% end %>
+
+	</div>
+
+</main>
+
+<%= render partial: "shared/header" %>
+
+

@@ -11,9 +11,9 @@
 @use './shared/chat.scss';
 @use './resources/pages/home';
 @use './resources/pages/rating';
-@use './resources/pages/editor';
 @use './resources/games/index';
 @use './resources/games/lobby';
 @use './resources/games/show';
 @use './resources/games/partials/game_info';
 @use './resources/devise/registrations/new';
+@use './resources/editor/editor';

@@ -7,8 +7,11 @@ import { application } from "./application"
 import ChatController from "./chat_controller"
 application.register("chat", ChatController)
 
-import EditorController from "./editor_controller"
-application.register("editor", EditorController)
+import EditorLessonController from "./editor_lesson_controller"
+application.register("editor-lesson", EditorLessonController)
+
+import EditorStoryController from "./editor_story_controller"
+application.register("editor-story", EditorStoryController)
 
 import GameObserverController from "./game_observer_controller"
 application.register("game-observer", GameObserverController)
