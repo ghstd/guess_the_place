@@ -1,0 +1,33 @@
+<aside class="left_sidebar">
+	<nav class="navigation">
+		<%= render partial: "shared/navigation" %>
+	</nav>
+	<%= render partial: "shared/footer" %>
+</aside>
+
+<main class="projects">
+	<h1 class="projects__title">Проекты</h1>
+	<section class="projects__content">
+		<ul class="projects__list">
+			<% @sotries.each do |story| %>
+				<li class="projects__card">
+					<%= link_to "&times;".html_safe, editor_destroy_story_path(story.id), data: {turbo_method: :delete, turbo_confirm: "Удалить проект?"} %>
+					<div>Название: <%= story.name %></div>
+					<div>Тип: <%= story.type %></div>
+					<div>Количество вопросов: <%= story.steps %></div>
+				</li>
+			<% end %>
+
+			<% @lessons.each do |lesson| %>
+				<li class="projects__card">
+					<%= link_to "&times;".html_safe, editor_destroy_lesson_path(lesson.id), data: {turbo_method: :delete, turbo_confirm: "Удалить проект?"} %>
+					<div>Название: <%= lesson.name %></div>
+					<div>Тип: <%= lesson.type %></div>
+					<div>Количество вопросов: <%= lesson.steps %></div>
+				</li>
+			<% end %>
+		</ul>
+	</section>
+</main>
+
+<%= render partial: "shared/header" %>

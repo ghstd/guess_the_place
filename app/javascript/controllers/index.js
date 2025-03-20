@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AvatarMenuController from "./avatar_menu_controller"
+application.register("avatar-menu", AvatarMenuController)
+
 import ChatController from "./chat_controller"
 application.register("chat", ChatController)
 

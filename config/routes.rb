@@ -14,12 +14,15 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get "/rating" => "pages#rating"
+  get "/projects" => "pages#projects"
 
   scope :editor, as: :editor do
     get "/new_story" => "editor#new_story"
     get "/new_lesson" => "editor#new_lesson"
     post "/create_story" => "editor#create_story"
     post "/create_lesson" => "editor#create_lesson"
+    delete "/destroy_story/:id" => "editor#destroy_story", as: :destroy_story
+    delete "/destroy_lesson/:id" => "editor#destroy_lesson", as: :destroy_lesson
   end
 
   resources :games, only: [ :index, :show ] do

@@ -1,7 +1,10 @@
 <header class="header">
-	<span>
-		<span class="avatar">
+	<span class="header__content" data-controller="avatar-menu">
+		<span class="header__avatar" data-action="click->avatar-menu#show">
 			<%= truncate(current_user.short_email, length: 5, omission: '..') %>
+		</span>
+		<span class="header__menu">
+			<%= link_to "Logout", destroy_user_session_path, data: {turbo_method: :delete} %>
 		</span>
 	</span>
 </header>

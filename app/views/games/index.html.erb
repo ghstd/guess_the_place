@@ -2,9 +2,7 @@
 
 
 <aside class="left_sidebar">
-	<nav class="navigation">
-		<%= render partial: "navigation" %>
-	</nav>
+	<%= link_to "Главная", root_path, class: "navigation__link" %>
 	<%= render partial: "shared/footer" %>
 </aside>
 
@@ -18,6 +16,5 @@
 	</section>
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-</aside>
+<%= render partial: "shared/header" %>
+

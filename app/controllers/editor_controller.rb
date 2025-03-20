@@ -57,6 +57,18 @@ class EditorController < ApplicationController
     render turbo_stream: turbo_stream.append("flash_container", partial: "shared/flash_messages"), status: :unprocessable_entity
   end
 
+  def destroy_story
+    story = Story.find(params[:id])
+    story.destroy
+    redirect_back fallback_location: root_path, notice: "Сюжет удален"
+  end
+
+  def destroy_lesson
+    lesson = Lesson.find(params[:id])
+    lesson.destroy
+    redirect_back fallback_location: root_path, notice: "Квиз удален"
+  end
+
   private
 
   def story_params

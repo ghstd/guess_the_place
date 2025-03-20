@@ -1,9 +1,7 @@
 <%= turbo_stream_from "game_#{@game.id}" %>
 
 <aside class="left_sidebar">
-	<nav class="navigation">
-		<%= render partial: "navigation" %>
-	</nav>
+	<%= link_to "Главная", root_path, class: "navigation__link" %>
 	<%= render partial: "game_info", locals: { game: @game } %>
 	<%= render partial: "shared/footer" %>
 </aside>

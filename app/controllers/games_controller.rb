@@ -39,7 +39,8 @@ class GamesController < ApplicationController
 
   def lobby
     @game = Game.includes(:users, :chat_messages).find_by(id: params[:id])
-    unless @game && @game.phase == "lobby"
+    @game_player = @game.game_players.find_by(user: current_user)
+    unless @game && @game.phase == "lobby" && @game_player
       return redirect_to root_path
     end
 
