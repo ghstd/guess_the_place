@@ -8,7 +8,7 @@
 
 .flash_messages {
 	position: relative;
-	background-color: var(--dark_2);
+	background-color: var(--gray_2);
 	color: var(--light);
 	font-size: 1.2rem;
 	text-align: start;
@@ -26,7 +26,7 @@
 		bottom: 0;
 		width: var(--time-line-width);
 		height: 2px;
-		background-color: var(--dark);
+		background-color: var(--light);
 		transition: width 4s linear;
 	}
 
@@ -47,7 +47,7 @@
 	button {
 		align-self: flex-start;
 		color: var(--light);
-		background-color: var(--dark);
+		background-color: var(--dark_2);
 		border: 1px solid var(--dark);
 		box-shadow: 2px 2px 0px 0px var(--dark);
 		padding: 0rem 0.8rem;
@@ -56,7 +56,7 @@
 	}
 
 	button:active {
-		box-shadow: 1px 1px 0px 0px var(--blue);
+		box-shadow: 1px 1px 0px 0px var(--grey_2);
 		transform: translateY(2px);
 	}
 }

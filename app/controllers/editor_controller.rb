@@ -23,9 +23,12 @@ class EditorController < ApplicationController
       end
     end
 
-    render json: { message: "Story created successfully" }, status: :created
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    flash[:notice] = "Сюжет успешно создан!"
+    redirect_to editor_new_story_path
+
+  rescue ActiveRecord::RecordInvalid => error
+    flash.now[:alert] = "Ошибка: #{error.message}"
+    render turbo_stream: turbo_stream.append("flash_container", partial: "shared/flash_messages"), status: :unprocessable_entity
   end
 
   def create_lesson
@@ -46,11 +49,12 @@ class EditorController < ApplicationController
       end
     end
 
-      flash[:notice] = "Урок успешно создан!"
-      render json: { message: "Lesson created successfully" }, status: :created
-  rescue ActiveRecord::RecordInvalid => e
-      flash[:alert] = "Произошла ошибка при создании урока."
-      render json: { error: e.message }, status: :unprocessable_entity
+    flash[:notice] = "Квиз успешно создан!"
+    redirect_to editor_new_lesson_path
+
+  rescue ActiveRecord::RecordInvalid => error
+    flash.now[:alert] = "Ошибка: #{error.message}"
+    render turbo_stream: turbo_stream.append("flash_container", partial: "shared/flash_messages"), status: :unprocessable_entity
   end
 
   private

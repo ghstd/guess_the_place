@@ -9,9 +9,6 @@ export default class extends Controller {
 
 		const addQuestionBtn = this.element.querySelector('.editor__controls button[type="button"]')
 		addQuestionBtn.onclick = this.addQuestionHandler
-
-		this.formSubmitHandler = this.formSubmitHandler.bind(this)
-		document.addEventListener("turbo:submit-end", this.formSubmitHandler)
 	}
 
 	addQuestionHandler = () => {
@@ -27,14 +24,12 @@ export default class extends Controller {
 		const close = li.querySelector('span')
 		close.onclick = () => {
 			li.remove()
+			this.numerateFeaders()
 		}
 
 		ul.appendChild(li)
 
-		const headers = this.element.querySelectorAll('.editor__list h3')
-		headers.forEach((header, index) => {
-			header.textContent = `Вопрос ${index + 1}`
-		})
+		this.numerateFeaders()
 	}
 
 	getOptionHtml() {
@@ -68,16 +63,10 @@ export default class extends Controller {
 		`.trim()
 	}
 
-	formSubmitHandler(event) {
-		const { success } = event.detail
-		if (success) {
-			console.log("Форма отправлена успешно", success)
-		} else {
-			console.log("Ошибка при отправке формы", success)
-		}
-	}
-
-	disconnect() {
-		document.removeEventListener("turbo:submit-end", this.formSubmitHandler)
+	numerateFeaders() {
+		const headers = this.element.querySelectorAll('.editor__list h3')
+		headers.forEach((header, index) => {
+			header.textContent = `Вопрос ${index + 1}`
+		})
 	}
 }
