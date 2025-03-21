@@ -9,7 +9,7 @@ class RandomGameStateUpdater
 
   def call
     set_state!
-    broadcast_render_to "game_#{@game.id}", partial: "games/turbo_stream/update_show", locals: { game: @game }
+    @game.broadcast_render_to "game_#{@game.id}", partial: "games/turbo_stream/update_show", locals: { game: @game }
   end
 
   def set_state_if_not_exist!

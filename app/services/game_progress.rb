@@ -1,6 +1,6 @@
 class GameProgress
   def self.call(game)
-    new(game).call
+    new(game)
   end
 
   def initialize(game)

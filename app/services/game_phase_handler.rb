@@ -40,6 +40,7 @@ class GamePhaseHandler
   end
 
   def delete_game
+    @game.broadcast_render_to "games", partial: "games/turbo_stream/delete_index_games", locals: { game: @game }
     @game.destroy
   end
 end

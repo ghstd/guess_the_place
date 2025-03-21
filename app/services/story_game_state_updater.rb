@@ -9,7 +9,7 @@ class StoryGameStateUpdater
 
   def call
     set_state!
-    broadcast_render_to "game_#{@game.id}", partial: "games/turbo_stream/update_show", locals: { game: @game }
+    @game.broadcast_render_to "game_#{@game.id}", partial: "games/turbo_stream/update_show", locals: { game: @game }
   end
 
   private

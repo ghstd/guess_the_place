@@ -6,7 +6,7 @@
 	<%= render partial: "shared/footer" %>
 </aside>
 
-<main class="game" data-controller="game_observer">
+<main class="game" data-controller="game-observer">
 	<div class="game__title">
 		<h1><%= @game.name %></h1>
 		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>

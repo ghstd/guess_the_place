@@ -8,12 +8,27 @@ class GameObserverChannel < ApplicationCable::Channel
 
   def unsubscribed
     game = Game.find_by(id: params[:game_id])
+    return unless game
 
-    if game
-      player = GamePlayer.find_by(id: params[:player_id])
-      player.update(connection: "offline")
+    player = GamePlayer.find_by(id: params[:player_id])
+    player.update(connection: "offline") if player
 
-      DeleteEmptyGameJob.set(wait: 5.seconds).perform_later(params[:game_id])
+    game.with_lock do
+      online_players_count = game.game_players.where(connection: "online").count
+      all_players_count = game.game_players.count
+
+      if online_players_count.zero?
+        if all_players_count == 1
+          DeleteEmptyGameJob.set(wait: 5.seconds).perform_later(game.id)
+          return
+        end
+
+        if game.phase == "lobby"
+          game.update(phase: "delete")
+        else
+          DeleteEmptyGameJob.set(wait: 5.seconds).perform_later(game.id)
+        end
+      end
     end
   end
 end

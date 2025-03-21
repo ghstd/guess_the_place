@@ -23,12 +23,12 @@ class GamesController < ApplicationController
   end
 
   def create_story
-    @game = GameCreator.call({ story_id: params[:story_id] }, current_user)
+    @game = GameCreator.call({ story_id: params[:story_id], game_type: "Story" }, current_user)
     handle_game_creation
   end
 
   def create_lesson
-    @game = GameCreator.call({ lesson_id: params[:lesson_id] }, current_user)
+    @game = GameCreator.call({ lesson_id: params[:lesson_id], game_type: "Lesson" }, current_user)
     handle_game_creation
   end
 
