@@ -8,17 +8,18 @@ class RandomGameStateUpdater
   end
 
   def call
-    set_state!
+    set_state_if_not_exist!
     @game.broadcast_render_to "game_#{@game.id}", partial: "games/turbo_stream/update_show", locals: { game: @game }
   end
+
+  private
 
   def set_state_if_not_exist!
     set_state! unless state_exists?
   end
 
-  private
-
   def set_state!
+    return unless @game.game_coordinates.present?
     coords = @game.game_coordinates.pluck("lat", "long")[@game.current_step - 1]
     street = StreetFinder.call(coords)
     set_of_streets = Street.where.not(name: street).order(Arel.sql("RANDOM()")).limit(3).pluck(:name)

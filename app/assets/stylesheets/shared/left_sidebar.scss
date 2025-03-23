@@ -32,6 +32,8 @@
 
 		&--active &__menu_button {
 			border: 1px solid transparent;
+			right: -32px;
+			width: 30px;
 		}
 
 		&__menu_button {
@@ -47,6 +49,7 @@
 			justify-content: center;
 			align-items: center;
 			z-index: 999;
+			transition: all 0.5s;
 			cursor: pointer;
 
 			svg {
@@ -56,5 +59,7 @@
 		}
 	}
 
-
+	@media (max-width: 480px) {
+		width: 180px;
+	}
 }

@@ -1,7 +1,12 @@
 .youtube_player {
-	height: 25%;
+	flex: 0 0 200px;
 	display: flex;
 	flex-direction: column;
+	border-bottom: 1px solid var(--light);
+
+	@media (max-width: 480px) {
+		width: 280px;
+	}
 
 	&__container {
 		background-color: var(--dark_2);
@@ -22,5 +27,9 @@
 	&__button {
 		min-width: 12%;
 		cursor: pointer;
+
+		@media (max-width: 480px) {
+			min-width: 8%;
+		}
 	}
 }

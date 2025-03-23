@@ -54,7 +54,7 @@ class GamesController < ApplicationController
     when "Lesson"
       render :show_lesson
     when "Random"
-      @game.with_lock { RandomGameStateUpdater.call(@game).set_state_if_not_exist! }
+      @game.with_lock { RandomGameStateUpdater.call(@game) }
     end
   end
 

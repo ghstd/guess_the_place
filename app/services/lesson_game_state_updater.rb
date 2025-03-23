@@ -15,6 +15,7 @@ class LessonGameStateUpdater
   private
 
   def set_state!
+    return unless @game.lesson.present?
     current_lesson_question = @game.lesson.lesson_questions[@game.current_step - 1]
     answers = current_lesson_question.lesson_answers
     wrong_answers = LessonAnswer

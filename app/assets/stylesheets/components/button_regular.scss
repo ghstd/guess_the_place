@@ -8,15 +8,20 @@
 	font-weight: 700;
 	font-size: 1.4rem;
 	box-shadow: 3px 4px 0px 0px var(--shadow);
-	cursor: pointer;
 	transition: all 0.2s ease-in-out;
-}
+	cursor: pointer;
 
-.button_regular:hover {
-	border-color: var(--green);
-}
+	&:hover {
+		border-color: var(--green);
+	}
 
-.button_regular:active {
-	box-shadow: 1px 2px 0px 0px var(--light);
-	transform: translateY(2px);
+	&:active {
+		box-shadow: 1px 2px 0px 0px var(--light);
+		transform: translateY(2px);
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.2rem;
+		padding: 0.5rem 1rem;
+	}
 }

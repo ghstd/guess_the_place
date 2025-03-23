@@ -15,6 +15,7 @@ class StoryGameStateUpdater
   private
 
   def set_state!
+    return unless @game.story.present?
     next_question = @game.story.story_questions[@game.current_step - 1]
     update(
       current_question: next_question,

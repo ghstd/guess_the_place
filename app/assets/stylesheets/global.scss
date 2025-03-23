@@ -6,3 +6,22 @@ body {
 	display: flex;
 	border-bottom: 1px solid var(--light);
 }
+
+@media (max-width: 768px) {
+	li {
+		font-size: 1.2rem;
+	}
+}
+
+@media (max-width: 480px) {
+	li {
+		word-break: break-all;
+		overflow-wrap: anywhere;
+	}
+
+	button,
+	input {
+		word-break: normal;
+		overflow-wrap: normal;
+	}
+}
