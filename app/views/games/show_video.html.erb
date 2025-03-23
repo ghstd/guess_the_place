@@ -1,15 +1,10 @@
 <%= turbo_stream_from "game_#{@game.id}" %>
 
-<aside class="left_sidebar">
-	<%= link_to "Главная", root_path, class: "navigation__link" %>
-	<%= render partial: "game_info", locals: { game: @game } %>
-	<%= render partial: "shared/footer" %>
-</aside>
+<%= render partial: "shared/left_sidebar", locals: { game: @game } %>
 
 <main class="game" data-controller="game-observer">
 	<div class="game__title">
 		<h1><%= @game.name %></h1>
-		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
 	</div>
 	<section class="game__content" 
 						data-server-url="<%= ENV["SERVER_URL"] %>" 
@@ -22,7 +17,5 @@
 	</section>
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-	<%= render partial: "shared/chat", locals: { game: @game } %>
-</aside>
+<%= render partial: "shared/right_sidebar", locals: { game: @game } %>
+

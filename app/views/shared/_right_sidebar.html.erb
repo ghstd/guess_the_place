@@ -1,0 +1,15 @@
+<aside class="right_sidebar" data-controller="sidebar-menu">
+	<button class="right_sidebar__menu_button" data-action="sidebar-menu#toggle">
+		<%= render partial: "shared/arrows_svg" %>
+	</button>
+
+	<%= render partial: "shared/header" %>
+
+	<% if defined?(game) && ["Random", "Story", "Lesson"].include?(game.game_type) && action_name != "lobby" %>
+		<%= render partial: "shared/youtube_player" %>
+	<% end %>
+
+	<% if ["lobby", "show"].include?(action_name) %>
+		<%= render partial: "shared/chat", locals: { game: game } %>
+	<% end %>
+</aside>

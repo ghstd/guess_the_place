@@ -49,7 +49,7 @@ class EditorController < ApplicationController
       end
     end
 
-    flash[:notice] = "Квиз успешно создан!"
+    flash[:notice] = "Тест успешно создан!"
     redirect_to editor_new_lesson_path
 
   rescue ActiveRecord::RecordInvalid => error
@@ -66,7 +66,7 @@ class EditorController < ApplicationController
   def destroy_lesson
     lesson = Lesson.find(params[:id])
     lesson.destroy
-    redirect_back fallback_location: root_path, notice: "Квиз удален"
+    redirect_back fallback_location: root_path, notice: "Тест удален"
   end
 
   private

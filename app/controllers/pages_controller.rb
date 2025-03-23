@@ -32,7 +32,7 @@ class PagesController < ApplicationController
       .group(:id)
 
     @lessons.each do |lesson|
-      lesson.define_singleton_method(:type) { "Квиз" }
+      lesson.define_singleton_method(:type) { "Тест" }
     end
   end
 end

@@ -1,0 +1,18 @@
+<aside class="left_sidebar" data-controller="sidebar-menu">
+	<button class="left_sidebar__menu_button" data-action="sidebar-menu#toggle">
+		<%= render partial: "shared/arrows_svg" %>
+	</button>
+
+	<% if ["pages", "editor"].include?(controller_name) %>
+		<nav class="navigation">
+			<%= render partial: "shared/navigation" %>
+		</nav>
+	<% else %>
+		<%= link_to "Главная", root_path, class: "navigation__link" %>
+		<% if ["show"].include?(action_name) %>
+			<%= render partial: "game_info", locals: { game: game } %>
+		<% end %>
+	<% end %>
+
+	<%= render partial: "shared/footer" %>
+</aside>

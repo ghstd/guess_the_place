@@ -1,12 +1,7 @@
-<aside class="left_sidebar">
-	<nav class="navigation">
-		<%= render partial: "shared/navigation" %>
-	</nav>
-	<%= render partial: "shared/footer" %>
-</aside>
+<%= render partial: "shared/left_sidebar" %>
 
 <main class="editor">
-	<h1 class="editor__title">Создание квиза</h1>
+	<h1 class="editor__title">Создание теста</h1>
 
 	<div class="editor__content" data-controller="editor-lesson">
 		<%= form_with url: editor_create_lesson_path, class: "editor__form" do |form| %>
@@ -14,7 +9,7 @@
 
 			<div class="editor__form_title">
 				<%= content_tag :label, "Название:" %>
-				<%= form.text_field "data[name]", placeholder: "Название квиза" %>
+				<%= form.text_field "data[name]", placeholder: "Название теста" %>
 			</div>
 
 			<ul class="editor__list">
@@ -45,6 +40,6 @@
 
 </main>
 
-<%= render partial: "shared/header" %>
+<%= render partial: "shared/right_sidebar" %>
 
 

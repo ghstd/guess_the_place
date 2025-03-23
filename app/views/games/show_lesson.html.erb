@@ -1,10 +1,6 @@
 <%= turbo_stream_from "game_#{@game.id}" %>
 
-<aside class="left_sidebar">
-	<%= link_to "Главная", root_path, class: "navigation__link" %>
-	<%= render partial: "game_info", locals: { game: @game } %>
-	<%= render partial: "shared/footer" %>
-</aside>
+<%= render partial: "shared/left_sidebar", locals: { game: @game } %>
 
 <main class="game" data-controller="game-observer">
 	<div class="game__title">
@@ -21,23 +17,21 @@
 				<%= image_tag @game.lesson_state["image"] %>
 			<% end %>
 		</div>
-		<div class="game__question" id="game_question">
-			<%= @game.lesson_state["question"] %>
-		</div>
 		<div class="game__controls">
-			<ul class="game__options" id="game_options">
-				<% @game.lesson_state["options"].each do |option| %>
-					<li class="game__option" data-option-id="<%= option[0] %>">
-						<%= option[1] %>
-					</li>
-				<% end %>
-			</ul>
+			<div class="game__question" id="game_question">
+				<%= @game.lesson_state["question"] %>
+			</div>
 			<button class="button_regular" id="game_ready_button">Готов</button>
 		</div>
+		<ul class="game__options" id="game_options">
+			<% @game.lesson_state["options"].each do |option| %>
+				<li class="game__option" data-option-id="<%= option[0] %>">
+					<%= option[1] %>
+				</li>
+			<% end %>
+		</ul>
 	</section>
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-	<%= render partial: "shared/chat", locals: { game: @game } %>
-</aside>
+<%= render partial: "shared/right_sidebar", locals: { game: @game } %>
+

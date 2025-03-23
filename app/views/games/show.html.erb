@@ -1,10 +1,6 @@
 <%= turbo_stream_from "game_#{@game.id}" %>
 
-<aside class="left_sidebar">
-	<%= link_to "Главная", root_path, class: "navigation__link" %>
-	<%= render partial: "game_info", locals: { game: @game } %>
-	<%= render partial: "shared/footer" %>
-</aside>
+<%= render partial: "shared/left_sidebar", locals: { game: @game } %>
 
 <main class="game" data-controller="game-observer">
 	<div class="game__title">
@@ -19,28 +15,25 @@
 		<meta data-player-id="<%= @game_player.id %>">
 		<meta data-game-coords="<%= @game.current_coordinates.as_json %>" id="game_coords">
 		<div class="game__panorama"></div>
-		<% if @game.game_type == "Story" %>
-			<div class="game__question" id="game_question"><%= @game.current_question.question %></div>
-		<% end %>
 		<div class="game__controls">
-			<ul class="game__options" id="game_options">
-				<% if @game.game_type == "Story" %>
-					<% @game.current_question.options.each do |option| %>
-						<li class="game__option"><%= option %></li>
-					<% end %>
-				<% else %>
-					<% @game.current_streets.each do |street| %>
-						<li class="game__option"><%= street %></li>
-					<% end %>
-				<% end %>
-			</ul>
+			<% if @game.game_type == "Story" %>
+				<div class="game__question" id="game_question"><%= @game.current_question.question %></div>
+			<% end %>
 			<button class="button_regular" id="game_ready_button">Готов</button>
 		</div>
+		<ul class="game__options" id="game_options">
+			<% if @game.game_type == "Story" %>
+				<% @game.current_question.options.each do |option| %>
+					<li class="game__option"><%= option %></li>
+				<% end %>
+			<% else %>
+				<% @game.current_streets.each do |street| %>
+					<li class="game__option"><%= street %></li>
+				<% end %>
+			<% end %>
+		</ul>
 	</section>
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-	<%= render partial: "shared/youtube_player" %>
-	<%= render partial: "shared/chat", locals: { game: @game } %>
-</aside>
+<%= render partial: "shared/right_sidebar", locals: { game: @game } %>
+

@@ -1,7 +1,8 @@
 // media
 $mobile: 480px;
 $tablet: 768px;
-$small_screen: 950px;
+$small_screen: 1024px;
+$medium_screen: 1366px;
 
 :root {
 	// colors
@@ -15,14 +16,11 @@ $small_screen: 950px;
 	--green: #268462;
 	--blue: #00bcd4;
 	--yellow: #d6f21e;
-	--orange: #8d5e0e;
+	--orange: #bf8115;
 	--violet: #9d1ef2;
 
 	// vars
 	--border_radius: 0.5rem;
-
-	// media
-	--tablet: 768px;
 }
 
 

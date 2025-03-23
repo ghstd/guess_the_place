@@ -1,9 +1,6 @@
 <%= turbo_stream_from "lobby_#{@game.id}" %>
 
-<aside class="left_sidebar">
-	<%= link_to "Главная", root_path, class: "navigation__link" %>
-	<%= render partial: "shared/footer" %>
-</aside>
+<%= render partial: "shared/left_sidebar" %>
 
 <main class="lobby" data-controller="lobby game-observer" id="meta">
 	<meta data-game-id="<%= @game.id %>">
@@ -25,9 +22,7 @@
 	</section>	
 </main>
 
-<aside class="right_sidebar">
-	<%= render partial: "shared/header" %>
-	<%= render partial: "shared/chat", locals: { game: @game } %>
-</aside>
+<%= render partial: "shared/right_sidebar", locals: { game: @game } %>
+
 
 

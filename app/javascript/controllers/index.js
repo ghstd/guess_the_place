@@ -34,5 +34,8 @@ application.register("navigation-nested-menu", NavigationNestedMenuController)
 import PanoramaController from "./panorama_controller"
 application.register("panorama", PanoramaController)
 
+import SidebarMenuController from "./sidebar_menu_controller"
+application.register("sidebar-menu", SidebarMenuController)
+
 import YoutubePlayerController from "./youtube_player_controller"
 application.register("youtube-player", YoutubePlayerController)
