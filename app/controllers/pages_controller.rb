@@ -4,6 +4,8 @@ class PagesController < ApplicationController
   end
 
   def rating
+    redirect_to root_path if GamesStatistic.count.zero?
+
     @games = GamesStatistic
       .select("user_id,
               CAST(SUM(answers) * 1.0 / NULLIF(SUM(questions), 0) * 100 AS INTEGER) as accuracy,
