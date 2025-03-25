@@ -82,7 +82,9 @@ export default class extends Controller {
 					linksControl: false,
 					disableDefaultUI: true,
 					showRoadLabels: false,
-					fullscreenControl: true
+					fullscreenControl: true,
+					motionTracking: false,
+					motionTrackingControl: false
 				})
 			})
 			.catch(error => console.log(`Error in connect() ==> loader.load(): ${error}`))

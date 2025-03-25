@@ -1,9 +1,13 @@
 #flash_container {
 	position: fixed;
 	z-index: 20;
-	top: 3rem;
+	top: 0;
 	right: 0;
 	margin: 0 2px;
+
+	@media (max-width: 1024px) {
+		top: 3rem;
+	}
 }
 
 .flash_messages {

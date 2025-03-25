@@ -19,14 +19,14 @@ class GameObserverChannel < ApplicationCable::Channel
 
       if online_players_count.zero?
         if all_players_count == 1
-          DeleteEmptyGameJob.set(wait: 5.seconds).perform_later(game.id)
+          DeleteEmptyGameJob.set(wait: 12.seconds).perform_later(game.id)
           return
         end
 
         if game.phase == "lobby"
           game.update(phase: "delete")
         else
-          DeleteEmptyGameJob.set(wait: 5.seconds).perform_later(game.id)
+          DeleteEmptyGameJob.set(wait: 12.seconds).perform_later(game.id)
         end
       end
     end
