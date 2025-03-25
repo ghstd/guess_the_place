@@ -207,6 +207,7 @@ GEM
     parser (3.3.7.0)
       ast (~> 2.4.1)
       racc
+    pg (1.5.9)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -419,6 +420,7 @@ DEPENDENCIES
   jsbundling-rails
   kamal
   net-smtp (~> 0.5.1)
+  pg
   propshaft
   pry (~> 0.15.2)
   pry-byebug (~> 3.8.0)
