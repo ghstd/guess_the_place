@@ -10,6 +10,7 @@
 	<section class="game__content" data-controller="lesson" 
 						data-server-url="<%= ENV["SERVER_URL"] %>" 
 						id="game_content">
+		<meta data-channel-prefix="game_lesson">				
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-player-id="<%= @game_player.id %>">
 		<div class="game__image" id="game_image">

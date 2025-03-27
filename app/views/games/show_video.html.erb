@@ -9,6 +9,7 @@
 	<section class="game__content" 
 						data-server-url="<%= ENV["SERVER_URL"] %>" 
 						id="game_content">
+		<meta data-channel-prefix="game_video">
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-player-id="<%= @game_player.id %>">
 		<div class="game__panorama" style="height: 100%;">

@@ -3,6 +3,7 @@
 <%= render partial: "shared/left_sidebar" %>
 
 <main class="lobby" data-controller="lobby game-observer" id="meta">
+	<meta data-channel-prefix="lobby">
 	<meta data-game-id="<%= @game.id %>">
 	<meta data-player-id="<%= @game_player.id %>">
 

@@ -53,6 +53,11 @@
 			background-color: var(--green);
 		}
 
+		&__ready--note {
+			color: var(--light);
+			background-color: var(--orange);
+		}
+
 		&__ready--alert {
 			color: var(--light);
 			background-color: var(--violet);

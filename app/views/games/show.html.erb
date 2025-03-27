@@ -11,6 +11,7 @@
 						data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>" 
 						data-server-url="<%= ENV["SERVER_URL"] %>" 
 						id="game_content">
+		<meta data-channel-prefix="game">
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-player-id="<%= @game_player.id %>">
 		<meta data-game-coords="<%= @game.current_coordinates.as_json %>" id="game_coords">

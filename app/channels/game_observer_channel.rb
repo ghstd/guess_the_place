@@ -1,34 +1,37 @@
 class GameObserverChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "game_observer_#{params[:game_id]}"
+    stream_name = "#{params[:channel_prefix]}_#{params[:game_id]}"
+    stream_from stream_name
 
     player = GamePlayer.find_by(id: params[:player_id])
-    player.update(connection: "online")
+    return unless player
+
+    ActiveRecord::Base.transaction do
+      player.with_lock do
+        subscribtions = (player.subscribtions + [ stream_name ]).uniq
+        player.update(connection: "online", subscribtions: subscribtions)
+      end
+    end
   end
 
   def unsubscribed
-    game = Game.find_by(id: params[:game_id])
-    return unless game
+    stream_name = "#{params[:channel_prefix]}_#{params[:game_id]}"
 
     player = GamePlayer.find_by(id: params[:player_id])
-    player.update(connection: "offline") if player
+    return unless player
 
-    game.with_lock do
-      online_players_count = game.game_players.where(connection: "online").count
-      all_players_count = game.game_players.count
+    index = subscribtions.index(stream_name)
+    subscribtions.delete_at(index) if index
 
-      if online_players_count.zero?
-        if all_players_count == 1
-          DeleteEmptyGameJob.set(wait: 12.seconds).perform_later(game.id)
-          return
-        end
-
-        if game.phase == "lobby"
-          game.update(phase: "delete")
-        else
-          DeleteEmptyGameJob.set(wait: 12.seconds).perform_later(game.id)
-        end
+    ActiveRecord::Base.transaction do
+      player.with_lock do
+        subscribtions = player.subscribtions.dup
+        index = subscribtions.index(stream_name)
+        subscribtions.delete_at(index) if index
+        player.update(subscribtions: subscribtions, connection: "pending")
       end
     end
+
+    CheckPlayerSubscribtionsJob.set(wait: 5.seconds).perform_later(player.id)
   end
 end

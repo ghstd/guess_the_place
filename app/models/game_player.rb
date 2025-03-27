@@ -1,4 +1,6 @@
 class GamePlayer < ApplicationRecord
+  serialize :subscribtions, coder: JSON
+
   belongs_to :game
   belongs_to :user
 
@@ -9,12 +11,28 @@ class GamePlayer < ApplicationRecord
   end
 
   after_update_commit do
-    if saved_change_to_attribute?(:ready) || saved_change_to_attribute?(:connection)
+    if saved_change_to_attribute?(:ready)
       broadcast_render_to "game_#{game.id}", partial: "games/turbo_stream/update_show_user_info", locals: { player: self }
-
       GameProgress.call(game).next_step_if_all_players_ready if ready
     end
+
+    if saved_change_to_attribute?(:connection)
+      broadcast_render_to "game_#{game.id}", partial: "games/turbo_stream/update_show_user_info", locals: { player: self }
+
+      if connection == "offline"
+        game.with_lock do
+          if game.game_players.where(connection: "offline").count == game.game_players.count
+            if game.phase == "lobby"
+              game.update(phase: "delete")
+            else
+              DeleteEmptyGameJob.set(wait: 5.seconds).perform_later(game.id)
+            end
+          end
+        end
+      end
+    end
   end
+
 
   def ready!(ready, answer)
     update(ready: ready, current_answer: answer)

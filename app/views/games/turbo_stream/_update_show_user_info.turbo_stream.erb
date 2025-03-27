@@ -2,6 +2,8 @@
   <template>
 		<% if player.connection == "offline" %>
 			<span class="user_info__ready user_info__ready--alert" id="user_ready_<%= player.id %>">Offline</span>
+		<% elsif player.connection == "pending" %>
+			<span class="user_info__ready user_info__ready--note" id="user_ready_<%= player.id %>">Pending</span>
 		<% elsif player.ready %>
 			<span class="user_info__ready user_info__ready--active" id="user_ready_<%= player.id %>">Готов</span>
 		<% else %>

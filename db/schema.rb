@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_101550) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_27_134822) do
   create_table "chat_messages", force: :cascade do |t|
     t.integer "game_id", null: false
     t.string "author"
@@ -40,6 +40,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_101550) do
     t.string "current_answer"
     t.string "color"
     t.string "connection", default: "offline"
+    t.text "subscribtions", default: "[]"
     t.index ["game_id"], name: "index_game_players_on_game_id"
     t.index ["user_id"], name: "index_game_players_on_user_id"
   end
