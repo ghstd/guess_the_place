@@ -13,7 +13,7 @@ The project is a real-time multiplayer quiz platform featuring various modes:
 -	Story-based quizzes linked to panoramic locations
 -	Shared YouTube video watching with synchronized playback
 -	Live chat communication between players
--	Programming-themed quizzes to test and improve coding knowledge
+-	Programming-themed quizzes to test and improve coding knowledge  
 Additionally, users can create their own custom quizzes, compete with others, and track their personal ranking and progress.
 
 ### Resources used:

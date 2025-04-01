@@ -35,7 +35,7 @@
 # end
 
 
-# file_path = Rails.root.join('my_temp_files', 'lib', 'lessons', 'rails.json')
+# file_path = Rails.root.join('my_temp_files', 'lib', 'lessons', 'sql.json')
 # json_data = JSON.parse(File.read(file_path))
 
 # lesson = Lesson.create!(name: json_data["name"], author: json_data["author"])

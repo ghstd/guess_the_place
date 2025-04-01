@@ -20,9 +20,6 @@ class GameObserverChannel < ApplicationCable::Channel
     player = GamePlayer.find_by(id: params[:player_id])
     return unless player
 
-    index = subscribtions.index(stream_name)
-    subscribtions.delete_at(index) if index
-
     ActiveRecord::Base.transaction do
       player.with_lock do
         subscribtions = player.subscribtions.dup
