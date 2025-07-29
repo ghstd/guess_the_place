@@ -5,7 +5,6 @@
 
 ### Website:
 [https://guess-the-place.pp.ua](https://guess-the-place.pp.ua)  
-[https://web-production-e6181.up.railway.app](https://web-production-e6181.up.railway.app) (backup link)
 
 ### Description:
 The project is a real-time multiplayer quiz platform featuring various modes:
