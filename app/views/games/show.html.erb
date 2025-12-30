@@ -7,15 +7,20 @@
 		<h1><%= @game.name %></h1>
 		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
 	</div>
-	<section class="game__content" data-controller="panorama" 
+	<section class="game__content" 
+						data-controller="panorama" 
+						<% if @enable_maps %>
 						data-api-key="<%= ENV["GOOGLE_MAPS_API_KEY"] %>" 
-						data-server-url="<%= ENV["SERVER_URL"] %>" 
+						<% end %>
+						data-server-url="<%= request.base_url %>" 
 						id="game_content">
 		<meta data-channel-prefix="game">
 		<meta data-game-id="<%= @game.id %>">
 		<meta data-player-id="<%= @game_player.id %>">
 		<meta data-game-coords="<%= @game.current_coordinates.as_json %>" id="game_coords">
-		<div class="game__panorama"></div>
+		<% if @enable_maps %>
+			<div class="game__panorama"></div>
+		<% end %>
 		<div class="game__controls">
 			<% if @game.game_type == "Story" %>
 				<div class="game__question" id="game_question"><%= @game.current_question.question %></div>

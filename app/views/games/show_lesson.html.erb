@@ -8,7 +8,7 @@
 		<p id="game_current_step">вопрос <span><%= @game.current_step %></span> из <span><%= @game.steps %></span></p>
 	</div>
 	<section class="game__content" data-controller="lesson" 
-						data-server-url="<%= ENV["SERVER_URL"] %>" 
+						data-server-url="<%= request.base_url %>" 
 						id="game_content">
 		<meta data-channel-prefix="game_lesson">				
 		<meta data-game-id="<%= @game.id %>">

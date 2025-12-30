@@ -4,7 +4,7 @@ class StoryQuestion < ApplicationRecord
 
   belongs_to :story
 
-  validates :coordinates, presence: true
+  # validates :coordinates, presence: true // temporary, only for creating stories with "maps_off" substring
   validates :question, presence: true
   validates :answer, presence: true
   validates :options, presence: true

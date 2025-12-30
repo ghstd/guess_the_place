@@ -7,7 +7,7 @@
 		<h1><%= @game.name %></h1>
 	</div>
 	<section class="game__content" 
-						data-server-url="<%= ENV["SERVER_URL"] %>" 
+						data-server-url="<%= request.base_url %>" 
 						id="game_content">
 		<meta data-channel-prefix="game_video">
 		<meta data-game-id="<%= @game.id %>">

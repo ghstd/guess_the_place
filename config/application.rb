@@ -23,5 +23,7 @@ module GuessThePlace
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.hosts << "bass-loyal-closely.ngrok-free.app"
   end
 end

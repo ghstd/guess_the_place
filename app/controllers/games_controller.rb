@@ -48,6 +48,8 @@ class GamesController < ApplicationController
   end
 
   def show
+    @enable_maps = !(@game.story&.name&.include?("maps_off"))
+
     case @game.game_type
     when "Video"
       render :show_video
